@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {Button, Container, Col, Row, Form} from 'react-bootstrap';
+import {Button, Container, Col, Row, Form, ListGroup} from 'react-bootstrap';
 import {GroceryItem} from '../../components';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,19 +14,30 @@ export default class Groceries extends React.Component {
           <h1>What do you want to order?</h1>
         </Row>
         <Row>
-              <Col><h2>Ailes</h2></Col>
-              <Col>
-                <h2>Display</h2>
+              <Col><h2>Aisles</h2></Col>
+              <Col xs={5}>
+                <h2>Grocery List</h2>
                 <Form.Group>
-                    <Form.Control size="lg" type="text" placeholder="Search" />
-                    <GroceryItem
-                      name="French Fries"
-                      price_range="$1.00 to $2.00"
-                      quantity="2"
-                    />
+                    <Form.Control size="lg" type="text" placeholder="Search"/>
                 </Form.Group>
+                <Row>
+                  <Col><h4>Item</h4></Col>
+                  <Col><h4>Price</h4></Col>
+                  <Col><h4>Quantity</h4></Col>
+                </Row>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <GroceryItem
+                        name="French Fries"
+                        price_range="$1.00 to $2.00"
+                      />
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Button>Add items to Basket</Button>
+                  </ListGroup.Item>
+                </ListGroup>
               </Col>
-              <Col><h2>Basket</h2></Col>
+              <Col xs={5}><h2>Basket</h2></Col>
         </Row>
       </Container>
     );
