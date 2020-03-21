@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import {Button, Container, Col, Row} from 'react-bootstrap'
+import {Button, Container, Col, Row} from 'react-bootstrap';
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 export default class Groceries extends React.Component {
 
