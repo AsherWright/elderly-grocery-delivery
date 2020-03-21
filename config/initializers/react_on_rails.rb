@@ -39,4 +39,6 @@ ReactOnRails.configure do |config|
   # React components.
   #
   config.server_bundle_js_file = ""
+
+  # config.i18n_yml_dir = Rails.root.join("PATH_TO", "YOUR_YAML_I18N_FOLDER")
 end
