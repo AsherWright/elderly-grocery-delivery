@@ -4,11 +4,17 @@ import {Button, Container, Col, Row, Form} from 'react-bootstrap';
 interface GroceryItemProps {
   name: string;
   price_range: string;
+  in_cart: boolean;
 }
 
 export default class GroceryItem extends React.Component<GroceryItemProps> {
 
   render() {
+    const add_button = <Button variant="outline-success" block>Add</Button>;
+    const remove_button = <Button variant="outline-danger" block>Remove</Button>;
+
+    const button = this.props.in_cart ? remove_button : add_button;
+
     return (
       <Row>
         <Col>
@@ -20,7 +26,6 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
         <Col>
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Control as="select">
-              <option>0</option>
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -28,6 +33,9 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
               <option>5</option>
             </Form.Control>
           </Form.Group>
+        </Col>
+        <Col>
+          {button}
         </Col>
       </Row>
     );
