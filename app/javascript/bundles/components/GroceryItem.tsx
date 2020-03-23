@@ -11,7 +11,7 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
 
   render() {
     const add_button = <Button variant="outline-success" block>Add</Button>;
-    const remove_button = <Button variant="outline-danger" block>Remove</Button>;
+    const remove_button = <Button variant="outline-danger" block>Remove All</Button>;
 
     const button = this.props.in_cart ? remove_button : add_button;
 
