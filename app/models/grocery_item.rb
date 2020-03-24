@@ -1,0 +1,2 @@
+class GroceryItem < ApplicationRecord
+end
