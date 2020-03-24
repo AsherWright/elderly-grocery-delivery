@@ -12,7 +12,7 @@ interface GroceryListState {
 
 interface GroceryListItem {
   name: string;
-  price: string;
+  price: number;
 }
 
 export default class GroceryList extends React.Component<GroceryListProps,GroceryListState> {

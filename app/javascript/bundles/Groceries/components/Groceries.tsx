@@ -1,3 +1,4 @@
+import {RouteComponentProps} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Button, Card, Container, Col, Row, Form, ListGroup, Jumbotron, Navbar, Nav, FormControl} from 'react-bootstrap';
 import {GroceryItem, GroceryList, Basket} from '../../components';
@@ -9,13 +10,13 @@ const topPad = {
   paddingTop: 30
 }
 
-interface GroceriesProps {
+interface GroceriesProps extends RouteComponentProps {
 
 }
 
 interface GroceryListItem {
   name: string;
-  price: string;
+  price: number;
 }
 
 interface GroceriesState {
@@ -28,21 +29,23 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
   constructor(props:GroceriesProps) {
     super(props)
     this.state = {
-      itemsInList: [
-      {
-        name: 'Fries',
-        price: '$3.00'
-      },
-      {
-        name: 'Orange',
-        price: '$4.82'
-      },
-      {
-        name: 'Paper towel',
-        price: '£90.67'
-      }],
+      itemsInList: [],
       itemsInCart: []
     }
+  }
+
+  componentDidMount() {
+    const url = "/api/v1/grocery_items/index";
+    fetch(url)
+      .then((response: Response) => {
+        console.log(response)
+        if (response.ok) {
+          return response.json() as Promise<GroceryListItem[]>;
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.setState({ itemsInList: response }))
+      .catch(() => this.props.history.push("/"));
   }
 
   render() {
