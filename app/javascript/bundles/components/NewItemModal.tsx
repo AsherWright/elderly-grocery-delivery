@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Container, Col, Row, Form, ListGroup, Modal} from 'react-bootstrap';
-import {GroceryItem} from '.'
+import {GroceryItem, GroceryList} from '.'
 
 interface NewItemModalProps {
     isVisible: boolean;
@@ -15,10 +15,11 @@ export default class NewItemModal extends React.Component<NewItemModalProps> {
     return (
 
     <Modal
-      hidden={!this.props.isVisible}
+      show={this.props.isVisible}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      onHide = {this.props.onClose}
     >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -34,10 +35,8 @@ export default class NewItemModal extends React.Component<NewItemModalProps> {
         </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-            <Row>
-                <Col><Button onClick={this.props.onClose}>Close</Button></Col>
-                <Col><Button onClick={this.props.onAdd}>Add item</Button></Col>
-            </Row>
+            <Button onClick={this.props.onAdd} variant='primary'>Add item</Button>
+            <Button onClick={this.props.onClose} variant='secondary'>Close</Button>
         </Modal.Footer>
     </Modal>
 

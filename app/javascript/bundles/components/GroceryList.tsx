@@ -1,12 +1,39 @@
 import React from 'react';
-import {Button, Container, Col, Row, Form, ListGroup} from 'react-bootstrap';
+import {Button, Container, Col, Row, Form, ListGroup, Modal} from 'react-bootstrap';
 import {GroceryItem, NewItemModal} from '.'
 
-interface BasketProps {
+interface GroceryListProps {
 
 }
 
-export default class Basket extends React.Component<BasketProps> {
+interface GroceryListState {
+  AddItemModalShowing: boolean
+}
+
+export default class GroceryList extends React.Component<GroceryListProps,GroceryListState> {
+
+   showModal() {
+     this.setState({
+       AddItemModalShowing: true
+     })
+   }
+
+  hideModal() {
+    this.setState({
+      AddItemModalShowing: false
+    })
+  }
+
+  constructor(props:GroceryListProps) {
+    super(props)
+
+    this.state = {
+      AddItemModalShowing: false
+    }
+
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+  }
 
   render() {
 
@@ -35,13 +62,13 @@ export default class Basket extends React.Component<BasketProps> {
           </ListGroup.Item>
           <ListGroup.Item>
           <p className = "text-center">Can't find what you're looking for? Click the button below to add a new item.</p>
-            <Button variant="outline-primary" block> Add New Item</Button>
+            <Button variant="outline-primary" block onClick={this.showModal}> Add New Item</Button>
         </ListGroup.Item>
         </ListGroup>
         <NewItemModal
-          isVisible
+          isVisible = {this.state.AddItemModalShowing}
           onAdd={() => {}}
-          onClose={() => {}}
+          onClose={this.hideModal}
         />
         </>
     );
