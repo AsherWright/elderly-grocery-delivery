@@ -1,6 +1,6 @@
 class OrderLineItem < ApplicationRecord
-    has_one :item
+    has_one :grocery_item
     belongs_to :order
-    validates :item, presence: true
+    validates :grocery_item, presence: true
     validates :order, presence: true
 end
