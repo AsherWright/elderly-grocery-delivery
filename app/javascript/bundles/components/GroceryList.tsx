@@ -3,7 +3,8 @@ import {Button, Container, Col, Row, Form, ListGroup, Modal} from 'react-bootstr
 import {GroceryItem, NewItemModal} from '.'
 
 interface GroceryListProps {
-  items: GroceryListItem[]
+  items: GroceryListItem[];
+  handleAddButtonPressed: (id: string) => void;
 }
 
 interface GroceryListState {
@@ -11,6 +12,7 @@ interface GroceryListState {
 }
 
 interface GroceryListItem {
+  id: string;
   name: string;
   price: number;
 }
@@ -52,7 +54,14 @@ export default class GroceryList extends React.Component<GroceryListProps,Grocer
     )
 
     const itemsList = this.props.items.map((item) =>
-      <ListGroup.Item><GroceryItem name={item.name} price={item.price} inCart={false}/></ListGroup.Item>
+      <ListGroup.Item key={item.id}>
+      <GroceryItem
+        id = {item.id}
+        name={item.name} 
+        price={item.price} 
+        inCart={false} 
+        handleButtonPressed={this.props.handleAddButtonPressed}/>
+      </ListGroup.Item>
     );
 
     return (

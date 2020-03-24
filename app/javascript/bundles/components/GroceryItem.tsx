@@ -2,18 +2,40 @@ import React from 'react';
 import {Button, Container, Col, Row, Form} from 'react-bootstrap';
 
 interface GroceryItemProps {
+  id: string;
   name: string;
-  price: string;
+  price: number;
   inCart: boolean;
+  handleButtonPressed: (item_id: string) => void;
 }
 
 export default class GroceryItem extends React.Component<GroceryItemProps> {
+  getButtonVariant(){
+    if (this.props.inCart) {
+      return "outline-danger"
+    } else {
+      return "outline-success"
+    }
+  }
+
+  getButtonText(){
+    if (this.props.inCart) {
+      return "Remove"
+    } else {
+      return "Add"
+    }
+  }
 
   render() {
-    const add_button = <Button variant="outline-success" block>Add</Button>;
-    const remove_button = <Button variant="outline-danger" block>Remove All</Button>;
-
-    const button = this.props.inCart ? remove_button : add_button;
+    const button = (
+      <Button
+        variant={this.getButtonVariant()}
+        block
+        onClick={() => this.props.handleButtonPressed(this.props.id)}
+      >
+          {this.getButtonText()}
+      </Button>
+    );
 
     return (
       <Row>

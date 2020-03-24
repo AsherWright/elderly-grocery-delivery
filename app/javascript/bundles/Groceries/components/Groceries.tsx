@@ -15,6 +15,7 @@ interface GroceriesProps extends RouteComponentProps {
 }
 
 interface GroceryListItem {
+  id: string;
   name: string;
   price: number;
 }
@@ -32,6 +33,28 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
       itemsInList: [],
       itemsInCart: []
     }
+    this.handleAddButtonPressed = this.handleAddButtonPressed.bind(this);
+    this.handleRemoveButtonPressed = this.handleRemoveButtonPressed.bind(this);
+  }
+
+
+
+  handleAddButtonPressed(id: string) {
+    const addedItem = this.state.itemsInList.find((item) => item.id === id) as GroceryListItem
+
+    this.setState({
+      itemsInList: this.state.itemsInList.filter((item) => item.id !== addedItem.id),
+      itemsInCart: [...this.state.itemsInCart, addedItem]
+    })
+  }
+
+  handleRemoveButtonPressed(id: string) {
+    const removedItem = this.state.itemsInCart.find((item) => item.id === id) as GroceryListItem
+
+    this.setState({
+      itemsInList: [...this.state.itemsInList, removedItem],
+      itemsInCart: this.state.itemsInCart.filter((item) => item.id !== removedItem.id)
+    })
   }
 
   componentDidMount() {
@@ -70,8 +93,8 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
                 <Col><h3 className="text-center">Basket</h3></Col>
           </Row>
           <Row>
-            <Col><GroceryList items={this.state.itemsInList}/></Col>
-            <Col><Basket/></Col>   
+            <Col><GroceryList items={this.state.itemsInList} handleAddButtonPressed={this.handleAddButtonPressed}/></Col>
+            <Col><Basket items={this.state.itemsInCart} handleRemovedButtonPressed={this.handleRemoveButtonPressed}/></Col>   
           </Row>
         </Container>
       </>
