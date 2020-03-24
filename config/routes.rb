@@ -5,6 +5,10 @@ Rails.application.routes.draw do
       post 'grocery_items/create'
       get 'grocery_items/show/:id', to: 'grocery_items#show'
       delete 'grocery_items/destroy/:id', to: 'grocery_items#destroy'
+      post 'order_line_items/create'
+      get 'order_line_items/show/:id', to: 'order_line_items#show'
+      post 'orders/create'
+      get 'orders/show/:id', to: 'orders#show'
     end
   end
   get 'hello_world', to: 'hello_world#index'
