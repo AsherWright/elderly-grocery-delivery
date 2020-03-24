@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Container, Col, Row, Form, ListGroup} from 'react-bootstrap';
-import {GroceryItem} from '.'
+import {GroceryItem, NewItemModal} from '.'
 
 interface BasketProps {
 
@@ -22,14 +22,14 @@ export default class Basket extends React.Component<BasketProps> {
           <ListGroup.Item>
             <GroceryItem
                 name="French Fries"
-                price_range="$1.00 to $2.00"
+                price="$2.00"
                 in_cart={false}
               />
           </ListGroup.Item>
           <ListGroup.Item>
             <GroceryItem
                 name="White Tooter Liz"
-                price_range="$400 to $800"
+                price="$800.00"
                 in_cart={false}
               />
           </ListGroup.Item>
@@ -38,6 +38,11 @@ export default class Basket extends React.Component<BasketProps> {
             <Button variant="outline-primary" block> Add New Item</Button>
         </ListGroup.Item>
         </ListGroup>
+        <NewItemModal
+          isVisible
+          onAdd={() => {}}
+          onClose={() => {}}
+        />
         </>
     );
   }

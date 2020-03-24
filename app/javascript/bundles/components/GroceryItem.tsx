@@ -3,7 +3,7 @@ import {Button, Container, Col, Row, Form} from 'react-bootstrap';
 
 interface GroceryItemProps {
   name: string;
-  price_range: string;
+  price: string;
   in_cart: boolean;
 }
 
@@ -21,7 +21,7 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
           {this.props.name}
         </Col>
         <Col>
-          {this.props.price_range}
+          {this.props.price}
         </Col>
         <Col>
           <Form.Group controlId="exampleForm.ControlSelect1">

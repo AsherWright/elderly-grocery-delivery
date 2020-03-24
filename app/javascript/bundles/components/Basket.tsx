@@ -22,14 +22,14 @@ export default class Basket extends React.Component<BasketProps> {
             <ListGroup.Item>
               <GroceryItem
                   name="French Fries"
-                  price_range="$1.00 to $2.00"
+                  price="$2.00"
                   in_cart
                 />
             </ListGroup.Item>
             <ListGroup.Item>
               <GroceryItem
                   name="White Tooter Liz"
-                  price_range="$400 to $800"
+                  price="$800.00"
                   in_cart
                 />
             </ListGroup.Item>
