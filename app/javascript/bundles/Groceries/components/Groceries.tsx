@@ -9,7 +9,41 @@ const topPad = {
   paddingTop: 30
 }
 
-export default class Groceries extends React.Component {
+interface GroceriesProps {
+
+}
+
+interface GroceryListItem {
+  name: string;
+  price: string;
+}
+
+interface GroceriesState {
+  itemsInList: GroceryListItem[];
+  itemsInCart: GroceryListItem[];
+}
+
+export default class Groceries extends React.Component<GroceriesProps, GroceriesState> {
+
+  constructor(props:GroceriesProps) {
+    super(props)
+    this.state = {
+      itemsInList: [
+      {
+        name: 'Fries',
+        price: '$3.00'
+      },
+      {
+        name: 'Orange',
+        price: '$4.82'
+      },
+      {
+        name: 'Paper towel',
+        price: '£90.67'
+      }],
+      itemsInCart: []
+    }
+  }
 
   render() {
     return (
@@ -33,7 +67,7 @@ export default class Groceries extends React.Component {
                 <Col><h3 className="text-center">Basket</h3></Col>
           </Row>
           <Row>
-            <Col><GroceryList/></Col>
+            <Col><GroceryList items={this.state.itemsInList}/></Col>
             <Col><Basket/></Col>   
           </Row>
         </Container>

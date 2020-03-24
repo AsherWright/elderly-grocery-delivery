@@ -20,20 +20,6 @@ export default class Basket extends React.Component<BasketProps> {
         </Row>
         <ListGroup>
             <ListGroup.Item>
-              <GroceryItem
-                  name="French Fries"
-                  price="$2.00"
-                  in_cart
-                />
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <GroceryItem
-                  name="White Tooter Liz"
-                  price="$800.00"
-                  in_cart
-                />
-            </ListGroup.Item>
-            <ListGroup.Item>
               <Button variant="outline-primary" block>Order your groceries now</Button>
             </ListGroup.Item>
         </ListGroup>
