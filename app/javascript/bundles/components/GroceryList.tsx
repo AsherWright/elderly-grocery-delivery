@@ -3,24 +3,29 @@ import {Button, Container, Col, Row, Form, ListGroup, Modal} from 'react-bootstr
 import {GroceryItem, NewItemModal} from '.'
 
 interface GroceryListProps {
-
+  items: GroceryListItem[]
 }
 
 interface GroceryListState {
-  AddItemModalShowing: boolean
+  addItemModalShowing: boolean
+}
+
+interface GroceryListItem {
+  name: string;
+  price: string;
 }
 
 export default class GroceryList extends React.Component<GroceryListProps,GroceryListState> {
 
    showModal() {
      this.setState({
-       AddItemModalShowing: true
+       addItemModalShowing: true
      })
    }
 
   hideModal() {
     this.setState({
-      AddItemModalShowing: false
+      addItemModalShowing: false
     })
   }
 
@@ -28,7 +33,7 @@ export default class GroceryList extends React.Component<GroceryListProps,Grocer
     super(props)
 
     this.state = {
-      AddItemModalShowing: false
+      addItemModalShowing: false
     }
 
     this.showModal = this.showModal.bind(this);
@@ -37,36 +42,31 @@ export default class GroceryList extends React.Component<GroceryListProps,Grocer
 
   render() {
 
+    const headers = (
+      <Row>
+        <Col><h5>Item</h5></Col>
+        <Col><h5>Price</h5></Col>
+        <Col><h5>Quantity</h5></Col>
+        <Col></Col>
+      </Row>
+    )
+
+    const itemsList = this.props.items.map((item) =>
+      <ListGroup.Item><GroceryItem name={item.name} price={item.price} inCart={false}/></ListGroup.Item>
+    );
+
     return (
         <>
-        <Row>
-            <Col><h5>Item</h5></Col>
-            <Col><h5>Price</h5></Col>
-            <Col><h5>Quantity</h5></Col>
-            <Col></Col>
-        </Row>
+        {headers}
         <ListGroup>
-          <ListGroup.Item>
-            <GroceryItem
-                name="French Fries"
-                price="$2.00"
-                in_cart={false}
-              />
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <GroceryItem
-                name="White Tooter Liz"
-                price="$800.00"
-                in_cart={false}
-              />
-          </ListGroup.Item>
-          <ListGroup.Item>
+          {itemsList}
+        <ListGroup.Item>
           <p className = "text-center">Can't find what you're looking for? Click the button below to add a new item.</p>
             <Button variant="outline-primary" block onClick={this.showModal}> Add New Item</Button>
         </ListGroup.Item>
         </ListGroup>
         <NewItemModal
-          isVisible = {this.state.AddItemModalShowing}
+          isVisible = {this.state.addItemModalShowing}
           onAdd={() => {}}
           onClose={this.hideModal}
         />
