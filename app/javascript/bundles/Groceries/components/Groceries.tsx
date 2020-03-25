@@ -21,19 +21,14 @@ interface GroceryItem {
   price: number;
 }
 
-enum GroceryLineItemLocation {
-  List,
-  Cart,
-}
-
 interface GroceryLineItem extends GroceryItem {
   quantity: number;
-  location: GroceryLineItemLocation;
 }
 
 interface GroceriesState {
   groceryItems: GroceryItem[];
-  groceryLineItems: GroceryLineItem[];
+  searchLineItems: GroceryLineItem[];
+  cartLineItems: GroceryLineItem[];
 }
 
 export default class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
@@ -43,14 +38,15 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
 
     this.state = {
       groceryItems: [],
-      groceryLineItems: []
+      searchLineItems: [],
+      cartLineItems: []
     }
 
-    this.handleAddButtonPressed = this.handleAddButtonPressed.bind(this);
-    this.handleRemoveButtonPressed = this.handleRemoveButtonPressed.bind(this);
-    this.handleQuantityChange = this.handleQuantityChange.bind(this);
-    this.changePropertiesOfGroceryLineItem = this.changePropertiesOfGroceryLineItem.bind(this);
-    this.updateLineItemInList = this.updateLineItemInList.bind(this);
+    this.addItemToCart = this.addItemToCart.bind(this);
+    this.removeItemFromCart = this.removeItemFromCart.bind(this);
+    this.handleListQuantityChange = this.handleListQuantityChange.bind(this);
+    this.handleCartQuantityChange = this.handleCartQuantityChange.bind(this);
+    this.modifyItemInList = this.modifyItemInList.bind(this);
   }
 
   componentDidMount(): void {
@@ -70,20 +66,17 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
   }
 
   onSearch(text: string): void {
-    const cartLineItems = this.state.groceryLineItems.filter(x => x.location == GroceryLineItemLocation.Cart)
-
     const regex = new RegExp(text, "i");
-    const matchingGroceryItems = text == "" ? [] : this.state.groceryItems.filter(x => regex.test(x.name))
+    const matchingGroceryItems = text === "" ? [] : this.state.groceryItems.filter(x => regex.test(x.name))
 
-    const groceryLineItems = matchingGroceryItems.map((item) => {
+    const searchLineItems = matchingGroceryItems.map((item) => {
       return {
         ...item,
-        quantity: 1,
-        location: GroceryLineItemLocation.List
+        quantity: 1
       }
     });
 
-    this.setState({ groceryLineItems: [...groceryLineItems, ...cartLineItems] })
+    this.setState({ searchLineItems })
   }
 
   render(): JSX.Element {
@@ -115,16 +108,16 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
           <Row>
             <Col>
               <GroceryList
-                items={this.getItemsInList()}
-                handleAddButtonPressed={this.handleAddButtonPressed}
-                handleQuantityChange={this.handleQuantityChange}
+                items={this.state.searchLineItems}
+                handleAddButtonPressed={this.addItemToCart}
+                handleQuantityChange={this.handleListQuantityChange}
               />
             </Col>
             <Col>
               <Basket
-                items={this.getItemsInCart()}
-                handleRemovedButtonPressed={this.handleRemoveButtonPressed}
-                handleQuantityChange={this.handleQuantityChange}
+                items={this.state.cartLineItems}
+                handleRemovedButtonPressed={this.removeItemFromCart}
+                handleQuantityChange={this.handleCartQuantityChange}
               />
             </Col>
           </Row>
@@ -133,44 +126,43 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     );
   }
 
-  getItemsInList(): GroceryLineItem[] {
-    return this.state.groceryLineItems.filter((item) => item.location == GroceryLineItemLocation.List)
+  removeItemFromCart(id: string): void {
+    this.setState({
+      cartLineItems: this.state.cartLineItems.filter(item => item.id !== id)
+    })
   }
 
-  getItemsInCart(): GroceryLineItem[] {
-    return this.state.groceryLineItems.filter((item) => item.location == GroceryLineItemLocation.Cart)
-  }
+  addItemToCart(id: string): void {
+    const searchItem = this.state.searchLineItems.find((item) => item.id === id) as GroceryLineItem
+    const correspondingCartItem = this.state.cartLineItems.find((item) => item.id === id)
 
-  updateLineItemInList(lineItems: GroceryLineItem[], updatedItem: GroceryLineItem): GroceryLineItem[] {
-    return lineItems.map((item) => item.id == updatedItem.id ? updatedItem : item)
-  }
-
-  changePropertiesOfGroceryLineItem(id: string, properties: Partial<GroceryLineItem>, moveToEnd: boolean): void {
-    const groceryItem = this.state.groceryLineItems.find((item) => item.id === id) as GroceryLineItem
-
-    if (moveToEnd) {
+    if (correspondingCartItem) {
+      const quantity = searchItem.quantity + correspondingCartItem.quantity
       this.setState({
-        groceryLineItems: [
-          ...this.state.groceryLineItems.filter((item) => item.id !== id),
-          { ...groceryItem, ...properties }
-        ]
+        cartLineItems: this.modifyItemInList(this.state.cartLineItems, id, { quantity })
       })
     } else {
       this.setState({
-        groceryLineItems: this.updateLineItemInList(this.state.groceryLineItems, { ...groceryItem, ...properties })
+        cartLineItems: [...this.state.cartLineItems, searchItem]
       })
     }
   }
 
-  handleAddButtonPressed(id: string): void {
-    this.changePropertiesOfGroceryLineItem(id, { location: GroceryLineItemLocation.Cart }, true)
+  handleListQuantityChange(id: string, quantity: number): void {
+    this.setState({
+      searchLineItems: this.modifyItemInList(this.state.searchLineItems, id, { quantity })
+    })
   }
 
-  handleRemoveButtonPressed(id: string): void {
-    this.changePropertiesOfGroceryLineItem(id, { location: GroceryLineItemLocation.List }, false)
+  handleCartQuantityChange(id: string, quantity: number): void {
+    this.setState({
+      cartLineItems: this.modifyItemInList(this.state.cartLineItems, id, { quantity })
+    })
   }
 
-  handleQuantityChange(id: string, quantity: number): void {
-    this.changePropertiesOfGroceryLineItem(id, { quantity }, false)
+  modifyItemInList(itemList: GroceryLineItem[], id: string, properties: Partial<GroceryLineItem>): GroceryLineItem[] {
+    const groceryItem = itemList.find((item) => item.id === id) as GroceryLineItem
+
+    return itemList.map((item) => item.id == id ? { ...groceryItem, ...properties } : item)
   }
 }
