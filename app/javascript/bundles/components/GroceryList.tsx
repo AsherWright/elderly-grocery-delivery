@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Container, Col, Row, Form, ListGroup, Modal} from 'react-bootstrap';
-import {GroceryItem, NewItemModal} from '.'
+import { Button, Container, Col, Row, Form, ListGroup, Modal } from 'react-bootstrap';
+import { GroceryItem, NewItemModal } from '.'
 
 interface GroceryListProps {
   items: GroceryListItem[];
@@ -17,13 +17,13 @@ interface GroceryListItem {
   price: number;
 }
 
-export default class GroceryList extends React.Component<GroceryListProps,GroceryListState> {
+export default class GroceryList extends React.Component<GroceryListProps, GroceryListState> {
 
-   showModal() {
-     this.setState({
-       addItemModalShowing: true
-     })
-   }
+  showModal() {
+    this.setState({
+      addItemModalShowing: true
+    })
+  }
 
   hideModal() {
     this.setState({
@@ -31,7 +31,7 @@ export default class GroceryList extends React.Component<GroceryListProps,Grocer
     })
   }
 
-  constructor(props:GroceryListProps) {
+  constructor(props: GroceryListProps) {
     super(props)
 
     this.state = {
@@ -54,32 +54,32 @@ export default class GroceryList extends React.Component<GroceryListProps,Grocer
     )
 
     const itemsList = this.props.items.map((item) =>
-      <ListGroup.Item key={item.id}>
-      <GroceryItem
-        id = {item.id}
-        name={item.name} 
-        price={item.price} 
-        inCart={false} 
-        handleButtonPressed={this.props.handleAddButtonPressed}/>
+      <ListGroup.Item key={item.id}>
+        <GroceryItem
+          id={item.id}
+          name={item.name}
+          price={item.price}
+          inCart={false}
+          handleButtonPressed={this.props.handleAddButtonPressed} />
       </ListGroup.Item>
     );
 
     return (
-        <>
+      <>
         {headers}
         <ListGroup>
           {itemsList}
-        <ListGroup.Item>
-          <p className = "text-center">Can't find what you're looking for? Click the button below to add a new item.</p>
+          <ListGroup.Item>
+            <p className="text-center">Can't find what you're looking for? Click the button below to add a new item.</p>
             <Button variant="outline-primary" block onClick={this.showModal}> Add New Item</Button>
-        </ListGroup.Item>
+          </ListGroup.Item>
         </ListGroup>
         <NewItemModal
-          isVisible = {this.state.addItemModalShowing}
-          onAdd={() => {}}
+          isVisible={this.state.addItemModalShowing}
+          onAdd={() => { }}
           onClose={this.hideModal}
         />
-        </>
+      </>
     );
   }
 }
