@@ -47,7 +47,7 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
         </Col>
         <Col>
           <Form.Group controlId="exampleForm.ControlSelect1">
-            <Form.Control as="select">
+            <Form.Control as="select" size='sm'>
               <option>1</option>
               <option>2</option>
               <option>3</option>
