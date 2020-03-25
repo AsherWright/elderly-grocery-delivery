@@ -6,6 +6,7 @@ interface BasketProps {
   items: GroceryListItem[];
   handleRemovedButtonPressed: (id: string) => void;
   handleQuantityChange: (id: string, val: number) => void;
+  handleCreateOrder: () => void;
 }
 
 interface GroceryListItem {
@@ -45,7 +46,13 @@ export default class Basket extends React.Component<BasketProps> {
         <ListGroup>
           {itemsList}
           <ListGroup.Item>
-            <Button variant="outline-primary" block>Order your groceries now</Button>
+            <Button
+              variant="outline-primary"
+              block
+              onClick={this.props.handleCreateOrder}
+            >
+              Order your groceries now
+            </Button>
           </ListGroup.Item>
         </ListGroup>
       </>

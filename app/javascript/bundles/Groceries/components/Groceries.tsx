@@ -15,6 +15,14 @@ interface FetchGroceryItemsResponseElement {
   price: number;
 }
 
+interface CreateOrderResponse {
+  id: string;
+}
+
+interface CreateLineItemsResponse {
+
+}
+
 interface GroceryItem {
   id: string;
   name: string;
@@ -47,13 +55,13 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     this.handleListQuantityChange = this.handleListQuantityChange.bind(this);
     this.handleCartQuantityChange = this.handleCartQuantityChange.bind(this);
     this.modifyItemInList = this.modifyItemInList.bind(this);
+    this.handleCreateOrder = this.handleCreateOrder.bind(this);
   }
 
   componentDidMount(): void {
     const url = "/api/v1/grocery_items/index";
     fetch(url)
       .then((response: Response) => {
-        console.log(response)
         if (response.ok) {
           return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
         }
@@ -65,7 +73,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
       .catch(() => this.props.history.push("/"));
   }
 
-  onSearch(text: string): void {
+  handleSearch(text: string): void {
     const regex = new RegExp(text, "i");
     const matchingGroceryItems = text === "" ? [] : this.state.groceryItems.filter(x => regex.test(x.name))
 
@@ -77,6 +85,58 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     });
 
     this.setState({ searchLineItems })
+  }
+
+  handleCreateOrder(): void {
+    const lineItemsUrl = "/api/v1/order_line_items/create";
+    const ordersUrl = "/api/v1/orders/create";
+    const { cartLineItems } = this.state;
+
+    if (cartLineItems.length == 0)
+      return;
+
+    const lineItemsBody =
+    {
+      items: cartLineItems.map((item) => {
+        return {
+          name: item.name,
+          price: item.price
+        }
+      })
+    };
+
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    const fetchParams = (body: string) => {
+      return {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body
+      }
+    }
+
+    console.log(fetchParams(JSON.stringify(lineItemsBody)))
+
+    fetch(ordersUrl, fetchParams(""))
+      .then((response: Response) => {
+        if (response.ok) {
+          return response.json() as Promise<CreateOrderResponse>;
+        }
+        throw new Error("Network response was not ok on order create.");
+      })
+      .then((createOrderResponse: CreateOrderResponse) => {
+        fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
+          .then((response: Response) => {
+            if (response.ok) {
+              return response.json() as Promise<CreateLineItemsResponse>;
+            }
+            throw new Error("Network response was not ok on line items create.")
+          })
+      })
+      .then(() => this.props.history.push("/"))
+      .catch((error: Error) => console.log(error.message));
   }
 
   render(): JSX.Element {
@@ -99,7 +159,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
                   size="lg"
                   type="text"
                   placeholder="Search for the groceries you need"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>): void => this.onSearch(event.target.value)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>): void => this.handleSearch(event.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -118,6 +178,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
                 items={this.state.cartLineItems}
                 handleRemovedButtonPressed={this.removeItemFromCart}
                 handleQuantityChange={this.handleCartQuantityChange}
+                handleCreateOrder={this.handleCreateOrder}
               />
             </Col>
           </Row>
