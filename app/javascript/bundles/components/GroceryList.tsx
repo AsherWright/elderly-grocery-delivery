@@ -5,6 +5,7 @@ import { GroceryItem, NewItemModal } from '.'
 interface GroceryListProps {
   items: GroceryListItem[];
   handleAddButtonPressed: (id: string) => void;
+  handleQuantityChange: (id: string, inCart: boolean, val: number) => void;
 }
 
 interface GroceryListState {
@@ -15,6 +16,7 @@ interface GroceryListItem {
   id: string;
   name: string;
   price: number;
+  quantity: number;
 }
 
 export default class GroceryList extends React.Component<GroceryListProps, GroceryListState> {
@@ -59,8 +61,11 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
           id={item.id}
           name={item.name}
           price={item.price}
+          quantity={item.quantity}
           inCart={false}
-          handleButtonPressed={this.props.handleAddButtonPressed} />
+          handleButtonPressed={this.props.handleAddButtonPressed}
+          handleQuantityChange={(val): void => this.props.handleQuantityChange(item.id, false, val)}
+        />
       </ListGroup.Item>
     );
 
