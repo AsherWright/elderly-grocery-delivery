@@ -95,15 +95,6 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     if (cartLineItems.length == 0)
       return;
 
-    const lineItemsBody =
-    {
-      items: cartLineItems.map((item) => {
-        return {
-          name: item.name,
-          price: item.price
-        }
-      })
-    };
 
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
     const fetchParams = (body: string) => {
@@ -117,8 +108,6 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
       }
     }
 
-    console.log(fetchParams(JSON.stringify(lineItemsBody)))
-
     fetch(ordersUrl, fetchParams(""))
       .then((response: Response) => {
         if (response.ok) {
@@ -127,6 +116,16 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
         throw new Error("Network response was not ok on order create.");
       })
       .then((createOrderResponse: CreateOrderResponse) => {
+        const lineItemsBody =
+        {
+          items: cartLineItems.map((item) => {
+            return {
+              quantity: item.quantity,
+              order_id: createOrderResponse.id,
+              grocery_item_id: item.id
+            }
+          })
+        };
         fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
           .then((response: Response) => {
             if (response.ok) {
