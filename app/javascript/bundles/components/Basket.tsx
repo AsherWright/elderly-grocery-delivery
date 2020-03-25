@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Col, Row, Form, ListGroup } from 'react-bootstrap';
+import { Button, Col, Row, ListGroup } from 'react-bootstrap';
 import { GroceryItem } from '.'
 
 interface BasketProps {
@@ -15,7 +15,7 @@ interface GroceryListItem {
 
 export default class Basket extends React.Component<BasketProps> {
 
-  render() {
+  render(): JSX.Element {
 
     const headers = <Row>
       <Col><h5>Item</h5></Col>

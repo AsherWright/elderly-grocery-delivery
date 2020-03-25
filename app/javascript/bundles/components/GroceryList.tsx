@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Col, Row, Form, ListGroup, Modal } from 'react-bootstrap';
+import { Button, Col, Row, ListGroup } from 'react-bootstrap';
 import { GroceryItem, NewItemModal } from '.'
 
 interface GroceryListProps {
@@ -8,7 +8,7 @@ interface GroceryListProps {
 }
 
 interface GroceryListState {
-  addItemModalShowing: boolean
+  addItemModalShowing: boolean;
 }
 
 interface GroceryListItem {
@@ -19,13 +19,13 @@ interface GroceryListItem {
 
 export default class GroceryList extends React.Component<GroceryListProps, GroceryListState> {
 
-  showModal() {
+  showModal(): void {
     this.setState({
       addItemModalShowing: true
     })
   }
 
-  hideModal() {
+  hideModal(): void {
     this.setState({
       addItemModalShowing: false
     })
@@ -42,7 +42,7 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
     this.hideModal = this.hideModal.bind(this);
   }
 
-  render() {
+  render(): JSX.Element {
 
     const headers = (
       <Row>
@@ -70,7 +70,7 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
         <ListGroup>
           {itemsList}
           <ListGroup.Item>
-            <p className="text-center">Can't find what you're looking for? Click the button below to add a new item.</p>
+            <p className="text-center">Can&apos;t find what you&apos;re looking for? Click the button below to add a new item.</p>
             <Button variant="outline-primary" block onClick={this.showModal}> Add New Item</Button>
           </ListGroup.Item>
         </ListGroup>

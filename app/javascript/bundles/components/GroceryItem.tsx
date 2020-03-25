@@ -1,16 +1,16 @@
 import React from 'react';
-import { Button, Container, Col, Row, Form } from 'react-bootstrap';
+import { Button, Col, Row, Form } from 'react-bootstrap';
 
 interface GroceryItemProps {
   id: string;
   name: string;
   price: number;
   inCart: boolean;
-  handleButtonPressed: (item_id: string) => void;
+  handleButtonPressed: (itemId: string) => void;
 }
 
 export default class GroceryItem extends React.Component<GroceryItemProps> {
-  getButtonVariant() {
+  getButtonVariant(): "outline-danger" | "outline-success" {
     if (this.props.inCart) {
       return "outline-danger"
     } else {
@@ -18,7 +18,7 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
     }
   }
 
-  getButtonText() {
+  getButtonText(): string {
     if (this.props.inCart) {
       return "Remove"
     } else {
@@ -26,12 +26,12 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     const button = (
       <Button
         variant={this.getButtonVariant()}
         block
-        onClick={() => this.props.handleButtonPressed(this.props.id)}
+        onClick={(): void => this.props.handleButtonPressed(this.props.id)}
       >
         {this.getButtonText()}
       </Button>

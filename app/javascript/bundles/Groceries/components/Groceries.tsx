@@ -1,17 +1,12 @@
-import {RouteComponentProps} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {Button, Card, Container, Col, Row, Form, ListGroup, Jumbotron, Navbar, Nav, FormControl} from 'react-bootstrap';
-import {GroceryItem, GroceryList, Basket} from '../../components';
+import { RouteComponentProps } from 'react-router-dom';
+import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
+import { GroceryList, Basket } from '../../components';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const topPad = {
   paddingTop: 30
-}
-
-interface GroceriesProps extends RouteComponentProps {
-
 }
 
 interface GroceryListItem {
@@ -25,21 +20,21 @@ interface GroceriesState {
   itemsInCart: GroceryListItem[];
 }
 
-export default class Groceries extends React.Component<GroceriesProps, GroceriesState> {
+export default class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
 
-  constructor(props:GroceriesProps) {
+  constructor(props: RouteComponentProps) {
     super(props)
+
     this.state = {
       itemsInList: [],
       itemsInCart: []
     }
+
     this.handleAddButtonPressed = this.handleAddButtonPressed.bind(this);
     this.handleRemoveButtonPressed = this.handleRemoveButtonPressed.bind(this);
   }
 
-
-
-  handleAddButtonPressed(id: string) {
+  handleAddButtonPressed(id: string): void {
     const addedItem = this.state.itemsInList.find((item) => item.id === id) as GroceryListItem
 
     this.setState({
@@ -48,7 +43,7 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
     })
   }
 
-  handleRemoveButtonPressed(id: string) {
+  handleRemoveButtonPressed(id: string): void {
     const removedItem = this.state.itemsInCart.find((item) => item.id === id) as GroceryListItem
 
     this.setState({
@@ -57,7 +52,7 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
     })
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const url = "/api/v1/grocery_items/index";
     fetch(url)
       .then((response: Response) => {
@@ -71,30 +66,30 @@ export default class Groceries extends React.Component<GroceriesProps, Groceries
       .catch(() => this.props.history.push("/"));
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <>
         <Navbar bg="light" variant="light">
-            <Navbar.Brand href="#home">GoGetGroceries</Navbar.Brand>
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#order">Order</Nav.Link>
-              <Nav.Link href="#deliver">Deliver</Nav.Link>
-              <Nav.Link href="#about">About</Nav.Link>
-            </Nav>
+          <Navbar.Brand href="#home">GoGetGroceries</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#order">Order</Nav.Link>
+            <Nav.Link href="#deliver">Deliver</Nav.Link>
+            <Nav.Link href="#about">About</Nav.Link>
+          </Nav>
         </Navbar>
         <Container fluid>
-          <Row className="justify-content-md-center" style = {topPad}>
-                <Col>
-                <Form.Group>
-                  <Form.Control size="lg" type="text" placeholder="Search for the groceries you need"/>
-                </Form.Group>
-                </Col>
-                <Col><h3 className="text-center">Basket</h3></Col>
+          <Row className="justify-content-md-center" style={topPad}>
+            <Col>
+              <Form.Group>
+                <Form.Control size="lg" type="text" placeholder="Search for the groceries you need" />
+              </Form.Group>
+            </Col>
+            <Col><h3 className="text-center">Basket</h3></Col>
           </Row>
           <Row>
-            <Col><GroceryList items={this.state.itemsInList} handleAddButtonPressed={this.handleAddButtonPressed}/></Col>
-            <Col><Basket items={this.state.itemsInCart} handleRemovedButtonPressed={this.handleRemoveButtonPressed}/></Col>   
+            <Col><GroceryList items={this.state.itemsInList} handleAddButtonPressed={this.handleAddButtonPressed} /></Col>
+            <Col><Basket items={this.state.itemsInCart} handleRemovedButtonPressed={this.handleRemoveButtonPressed} /></Col>
           </Row>
         </Container>
       </>
