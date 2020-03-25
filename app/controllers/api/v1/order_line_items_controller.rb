@@ -1,29 +1,42 @@
 class Api::V1::OrderLineItemsController < ApplicationController
-    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
-    def index
+  def index
+  end
+
+  def create
+    order_line_items = if multiple_items?
+      OrderLineItem.create!(order_line_items_params)
+    else
+      OrderLineItem.create!(order_line_item_params)
     end
 
-    def create
-        order_line_item = OrderLineItem.create!(order_line_item_params)
-
-        if order_line_item
-          render json: order_line_item
-        else
-          render json: order_line_item.errors
-        end
+    if order_line_items
+      render json: order_line_items
+    else
+      render json: order_line_items.errors
     end
+  end
 
-    def show
-        render json: OrderLineItem.find(params[:id])
-    end
+  def show
+      render json: OrderLineItem.find(params[:id])
+  end
 
-    def destroy
-    end
+  def destroy
+  end
 
-    private
+  private
 
-    def order_line_item_params
-        params.permit(:quantity, :order, :grocery_item)
-    end
+  def multiple_items?
+    !!params[:items]
+  end
+
+  # TODO: correct this (don't permit everything...)
+  def order_line_items_params
+    params.permit![:items]
+  end
+
+  def order_line_item_params
+    params.require([:quantity, :price, :grocery_item_id, :order_id])
+  end
 end
