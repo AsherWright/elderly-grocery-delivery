@@ -5,8 +5,10 @@ interface GroceryItemProps {
   id: string;
   name: string;
   price: number;
+  quantity: number;
   inCart: boolean;
   handleButtonPressed: (itemId: string) => void;
+  handleQuantityChange: (val: number) => void;
 }
 
 export default class GroceryItem extends React.Component<GroceryItemProps> {
@@ -47,7 +49,14 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
         </Col>
         <Col>
           <Form.Group controlId="exampleForm.ControlSelect1">
-            <Form.Control as="select" size='sm'>
+            <Form.Control
+              as="select"
+              size='sm'
+              onChange={
+                (event: React.ChangeEvent<HTMLInputElement>): void => this.props.handleQuantityChange(Number(event.target.value))
+              }
+              value={String(this.props.quantity)}
+            >
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -59,7 +68,7 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
         <Col>
           {button}
         </Col>
-      </Row>
+      </Row >
     );
   }
 }

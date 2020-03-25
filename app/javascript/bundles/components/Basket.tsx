@@ -5,12 +5,14 @@ import { GroceryItem } from '.'
 interface BasketProps {
   items: GroceryListItem[];
   handleRemovedButtonPressed: (id: string) => void;
+  handleQuantityChange: (id: string, inCart: boolean, val: number) => void;
 }
 
 interface GroceryListItem {
   id: string;
   name: string;
   price: number;
+  quantity: number;
 }
 
 export default class Basket extends React.Component<BasketProps> {
@@ -30,8 +32,10 @@ export default class Basket extends React.Component<BasketProps> {
           id={item.id}
           name={item.name}
           price={item.price}
+          quantity={item.quantity}
           inCart={true}
-          handleButtonPressed={this.props.handleRemovedButtonPressed} />
+          handleButtonPressed={this.props.handleRemovedButtonPressed}
+          handleQuantityChange={(val): void => this.props.handleQuantityChange(item.id, false, val)} />
       </ListGroup.Item>
     );
 

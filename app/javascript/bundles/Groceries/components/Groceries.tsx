@@ -9,10 +9,17 @@ const topPad = {
   paddingTop: 30
 }
 
+interface FetchGroceryItemsResponseElement {
+  id: string;
+  name: string;
+  price: number;
+}
+
 interface GroceryListItem {
   id: string;
   name: string;
   price: number;
+  quantity: number;
 }
 
 interface GroceriesState {
@@ -32,6 +39,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
 
     this.handleAddButtonPressed = this.handleAddButtonPressed.bind(this);
     this.handleRemoveButtonPressed = this.handleRemoveButtonPressed.bind(this);
+    this.handleQuantityChange = this.handleQuantityChange.bind(this);
   }
 
   handleAddButtonPressed(id: string): void {
@@ -52,17 +60,37 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     })
   }
 
+  handleQuantityChange(id: string, inCart: boolean, value: number): void {
+    let item: GroceryListItem;
+
+    if (inCart) {
+      item = this.state.itemsInCart.find((item) => item.id === id) as GroceryListItem
+
+      this.setState({
+        itemsInCart: [...this.state.itemsInCart.filter((i) => i.id !== item.id), { ...item, quantity: value }]
+      })
+    } else {
+      item = this.state.itemsInList.find((item) => item.id === id) as GroceryListItem
+
+      this.setState({
+        itemsInList: [...this.state.itemsInList.filter((i) => i.id !== item.id), { ...item, quantity: value }]
+      })
+    }
+  }
+
   componentDidMount(): void {
     const url = "/api/v1/grocery_items/index";
     fetch(url)
       .then((response: Response) => {
         console.log(response)
         if (response.ok) {
-          return response.json() as Promise<GroceryListItem[]>;
+          return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
         }
         throw new Error("Network response was not ok.");
       })
-      .then(response => this.setState({ itemsInList: response }))
+      .then(response => this.setState(
+        { itemsInList: response.map(groceryListItem => ({ ...groceryListItem, quantity: 1 })) }
+      ))
       .catch(() => this.props.history.push("/"));
   }
 
@@ -88,7 +116,13 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
             <Col><h3 className="text-center">Basket</h3></Col>
           </Row>
           <Row>
-            <Col><GroceryList items={this.state.itemsInList} handleAddButtonPressed={this.handleAddButtonPressed} /></Col>
+            <Col>
+              <GroceryList
+                items={this.state.itemsInList}
+                handleAddButtonPressed={this.handleAddButtonPressed}
+                handleQuantityChange={this.handleQuantityChange}
+              />
+            </Col>
             <Col><Basket items={this.state.itemsInCart} handleRemovedButtonPressed={this.handleRemoveButtonPressed} /></Col>
           </Row>
         </Container>
