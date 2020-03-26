@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
-import { GroceryList, Basket } from '../../components';
+import { GroceryList, Basket } from './components';
 
 const topPad = {
   paddingTop: 30
@@ -37,7 +37,7 @@ interface GroceriesState {
   cartLineItems: GroceryLineItem[];
 }
 
-export default class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
+class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
 
   constructor(props: RouteComponentProps) {
     super(props)
@@ -224,3 +224,5 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     return itemList.map((item) => item.id == id ? { ...groceryItem, ...properties } : item)
   }
 }
+
+export default Groceries;

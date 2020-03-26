@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Groceries from "./Groceries/components/Groceries";
-import Order from "./Order/components/Order";
-import Home from './Home/components/Home';
+import { Home, Groceries, Order } from "../components";
 
 const App = (): JSX.Element => (
     <Router>
