@@ -6,7 +6,7 @@ class Api::V1::OrderLineItemsController < ApplicationController
 
   def create
     order_line_items = if multiple_items?
-      OrderLineItem.create!(order_line_items_params)
+      OrderLineItem.create!(order_line_items_params[:items])
     else
       OrderLineItem.create!(order_line_item_params)
     end
@@ -31,9 +31,8 @@ class Api::V1::OrderLineItemsController < ApplicationController
     !!params[:items]
   end
 
-  # TODO: correct this (don't permit everything...)
   def order_line_items_params
-    params.permit![:items]
+    params.permit(:items => [:quantity, :order_id, :grocery_item_id])
   end
 
   def order_line_item_params
