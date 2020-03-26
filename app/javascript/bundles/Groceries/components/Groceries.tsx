@@ -1,6 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
-import { GroceryList, Basket } from '../../components';
+import { GroceryList, Basket, GroceryItem } from '../../components';
+import uuid from 'uuid';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -56,6 +57,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     this.handleCartQuantityChange = this.handleCartQuantityChange.bind(this);
     this.modifyItemInList = this.modifyItemInList.bind(this);
     this.handleCreateOrder = this.handleCreateOrder.bind(this);
+    this.addNewItemToBasket = this.addNewItemToBasket.bind(this);
   }
 
   componentDidMount(): void {
@@ -171,6 +173,7 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
                 items={this.state.searchLineItems}
                 handleAddButtonPressed={this.addItemToCart}
                 handleQuantityChange={this.handleListQuantityChange}
+                onAddNewItem={this.addNewItemToBasket}
               />
             </Col>
             <Col>
@@ -225,5 +228,16 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
     const groceryItem = itemList.find((item) => item.id === id) as GroceryLineItem
 
     return itemList.map((item) => item.id == id ? { ...groceryItem, ...properties } : item)
+  }
+
+  addNewItemToBasket(itemName: string, itemPrice: string): void {
+    const newItem: GroceryLineItem = { name: itemName, price: Number(itemPrice), quantity: 1, id: itemName }
+    const itemAlreadyExists: boolean = this.state.cartLineItems.find((item) => item.name === itemName) != undefined
+    console.log(itemAlreadyExists)
+    if (!itemAlreadyExists) {
+      this.setState({
+        cartLineItems: [...this.state.cartLineItems, newItem]
+      })
+    }
   }
 }
