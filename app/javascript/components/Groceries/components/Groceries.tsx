@@ -1,9 +1,7 @@
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
 import { GroceryList, Basket } from '../../components';
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const topPad = {
   paddingTop: 30
