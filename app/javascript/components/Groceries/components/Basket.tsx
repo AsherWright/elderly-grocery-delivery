@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Col, Row, ListGroup } from 'react-bootstrap';
 import { GroceryItem } from '.'
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 interface BasketProps {
   items: GroceryListItem[];
@@ -16,14 +17,14 @@ interface GroceryListItem {
   quantity: number;
 }
 
-export default class Basket extends React.Component<BasketProps> {
-
+class Basket extends React.Component<BasketProps & WithTranslation> {
   render(): JSX.Element {
+    const { t } = this.props;
 
     const headers = <Row>
-      <Col><h5>Item</h5></Col>
-      <Col><h5>Price</h5></Col>
-      <Col><h5>Quantity</h5></Col>
+      <Col><h5>{t("basket.item")}</h5></Col>
+      <Col><h5>{t("basket.price")}</h5></Col>
+      <Col><h5>{t("basket.quantity")}</h5></Col>
       <Col></Col>
     </Row>
 
@@ -51,7 +52,7 @@ export default class Basket extends React.Component<BasketProps> {
               block
               onClick={this.props.handleCreateOrder}
             >
-              Order your groceries now
+              {t("basket.order_now")}
             </Button>
           </ListGroup.Item>
         </ListGroup>
@@ -59,3 +60,5 @@ export default class Basket extends React.Component<BasketProps> {
     );
   }
 }
+
+export default withTranslation()(Basket);

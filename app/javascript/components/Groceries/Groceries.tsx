@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
 
 const topPad = {
@@ -37,9 +38,10 @@ interface GroceriesState {
   cartLineItems: GroceryLineItem[];
 }
 
-class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
+type GroceriesProps = RouteComponentProps & WithTranslation;
 
-  constructor(props: RouteComponentProps) {
+class Groceries extends React.Component<GroceriesProps, GroceriesState> {
+  constructor(props: GroceriesProps) {
     super(props)
 
     this.state = {
@@ -94,7 +96,6 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
     if (cartLineItems.length == 0)
       return;
 
-
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
     const fetchParams = (body: string) => {
       return {
@@ -138,15 +139,17 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
   }
 
   render(): JSX.Element {
+    const { t } = this.props;
+
     return (
       <>
         <Navbar bg="light" variant="light">
           <Navbar.Brand href="#home">GoGetGroceries</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#order">Order</Nav.Link>
-            <Nav.Link href="#deliver">Deliver</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link href="#home">{t('groceries.home')}</Nav.Link>
+            <Nav.Link href="#order">{t('groceries.order')}</Nav.Link>
+            <Nav.Link href="#deliver">{t('groceries.deliver')}</Nav.Link>
+            <Nav.Link href="#about">{t('groceries.about')}</Nav.Link>
           </Nav>
         </Navbar>
         <Container fluid>
@@ -156,12 +159,12 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
                 <Form.Control
                   size="lg"
                   type="text"
-                  placeholder="Search for the groceries you need"
+                  placeholder={t('groceries.search')}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>): void => this.handleSearch(event.target.value)}
                 />
               </Form.Group>
             </Col>
-            <Col><h3 className="text-center">Basket</h3></Col>
+            <Col><h3 className="text-center">{t('groceries.basket')}</h3></Col>
           </Row>
           <Row>
             <Col>
@@ -238,4 +241,4 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
   }
 }
 
-export default Groceries;
+export default withTranslation()(Groceries);

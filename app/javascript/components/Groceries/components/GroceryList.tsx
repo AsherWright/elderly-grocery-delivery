@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Col, Row, ListGroup } from 'react-bootstrap';
 import { GroceryItem, NewItemModal } from '.'
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 interface GroceryListProps {
   items: GroceryListItem[];
@@ -20,7 +21,9 @@ interface GroceryListItem {
   quantity: number;
 }
 
-export default class GroceryList extends React.Component<GroceryListProps, GroceryListState> {
+type GroceryListPropsWithI18n = GroceryListProps & WithTranslation;
+
+class GroceryList extends React.Component<GroceryListPropsWithI18n, GroceryListState> {
 
   showModal(): void {
     this.setState({
@@ -34,7 +37,7 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
     })
   }
 
-  constructor(props: GroceryListProps) {
+  constructor(props: GroceryListPropsWithI18n) {
     super(props)
 
     this.state = {
@@ -46,17 +49,24 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
   }
 
   render(): JSX.Element {
+    const {
+      t,
+      items,
+      onAddNewItem,
+      handleAddButtonPressed,
+      handleQuantityChange
+    } = this.props
 
     const headers = (
       <Row>
-        <Col><h5>Item</h5></Col>
-        <Col><h5>Price</h5></Col>
-        <Col><h5>Quantity</h5></Col>
+        <Col><h5>{t('grocery_list.item')}</h5></Col>
+        <Col><h5>{t('grocery_list.price')}</h5></Col>
+        <Col><h5>{t('grocery_list.quantity')}</h5></Col>
         <Col></Col>
       </Row>
     )
 
-    const itemsList = this.props.items.map((item) =>
+    const itemsList = items.map((item) =>
       <ListGroup.Item key={item.id}>
         <GroceryItem
           id={item.id}
@@ -64,8 +74,8 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
           price={item.price}
           quantity={item.quantity}
           inCart={false}
-          handleButtonPressed={this.props.handleAddButtonPressed}
-          handleQuantityChange={(val): void => this.props.handleQuantityChange(item.id, val)}
+          handleButtonPressed={handleAddButtonPressed}
+          handleQuantityChange={(val): void => handleQuantityChange(item.id, val)}
         />
       </ListGroup.Item>
     );
@@ -76,16 +86,18 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
         <ListGroup>
           {itemsList}
           <ListGroup.Item>
-            <p className="text-center">Can&apos;t find what you&apos;re looking for? Click the button below to add a new item.</p>
-            <Button variant="outline-primary" block onClick={this.showModal}> Add New Item</Button>
+            <p className="text-center">{t('grocery_list.search_prompt')}</p>
+            <Button variant="outline-primary" block onClick={this.showModal}>{t('grocery_list.add_new_item')}</Button>
           </ListGroup.Item>
         </ListGroup>
         <NewItemModal
           isVisible={this.state.addItemModalShowing}
-          onAdd={this.props.onAddNewItem}
+          onAdd={onAddNewItem}
           onClose={this.hideModal}
         />
       </>
     );
   }
 }
+
+export default withTranslation()(GroceryList)
