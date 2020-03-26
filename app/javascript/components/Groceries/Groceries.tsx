@@ -54,6 +54,7 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
     this.handleCartQuantityChange = this.handleCartQuantityChange.bind(this);
     this.modifyItemInList = this.modifyItemInList.bind(this);
     this.handleCreateOrder = this.handleCreateOrder.bind(this);
+    this.addNewItemToBasket = this.addNewItemToBasket.bind(this);
   }
 
   componentDidMount(): void {
@@ -168,6 +169,7 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
                 items={this.state.searchLineItems}
                 handleAddButtonPressed={this.addItemToCart}
                 handleQuantityChange={this.handleListQuantityChange}
+                onAddNewItem={this.addNewItemToBasket}
               />
             </Col>
             <Col>
@@ -222,6 +224,17 @@ class Groceries extends React.Component<RouteComponentProps, GroceriesState> {
     const groceryItem = itemList.find((item) => item.id === id) as GroceryLineItem
 
     return itemList.map((item) => item.id == id ? { ...groceryItem, ...properties } : item)
+  }
+
+  addNewItemToBasket(itemName: string, itemPrice: string): void {
+    const newItem: GroceryLineItem = { name: itemName, price: Number(itemPrice), quantity: 1, id: itemName }
+    const itemAlreadyExists: boolean = this.state.cartLineItems.some((item) => item.name === itemName)
+
+    if (!itemAlreadyExists) {
+      this.setState({
+        cartLineItems: [...this.state.cartLineItems, newItem]
+      })
+    }
   }
 }
 

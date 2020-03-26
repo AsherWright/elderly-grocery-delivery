@@ -6,6 +6,7 @@ interface GroceryListProps {
   items: GroceryListItem[];
   handleAddButtonPressed: (id: string) => void;
   handleQuantityChange: (id: string, val: number) => void;
+  onAddNewItem: (itemName: string, itemPrice: string) => void;
 }
 
 interface GroceryListState {
@@ -81,7 +82,7 @@ export default class GroceryList extends React.Component<GroceryListProps, Groce
         </ListGroup>
         <NewItemModal
           isVisible={this.state.addItemModalShowing}
-          onAdd={() => { }}
+          onAdd={this.props.onAddNewItem}
           onClose={this.hideModal}
         />
       </>
