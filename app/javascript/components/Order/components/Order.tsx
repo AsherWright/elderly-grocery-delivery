@@ -15,8 +15,12 @@ interface OrderState {
     order: Order;
 }
 
-class OrderPage extends React.Component<RouteComponentProps, OrderState> {
-    constructor(props: RouteComponentProps) {
+interface RouteParams {
+    id: string;
+}
+
+class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderState> {
+    constructor(props: RouteComponentProps<RouteParams>) {
         super(props)
 
         this.state = {
@@ -28,10 +32,8 @@ class OrderPage extends React.Component<RouteComponentProps, OrderState> {
     }
 
     componentDidMount(): void {
-        const orderIdMatches = window.location.pathname.match(/orders\/(.*)$/)
-        const orderId = orderIdMatches && orderIdMatches[1]
+        const url = "/api/v1/orders/show/" + this.props.match.params.id;
 
-        const url = "/api/v1/orders/show/" + orderId;
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {

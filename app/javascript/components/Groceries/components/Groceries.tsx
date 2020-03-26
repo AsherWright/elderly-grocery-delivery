@@ -127,12 +127,12 @@ export default class Groceries extends React.Component<RouteComponentProps, Groc
         fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
           .then((response: Response) => {
             if (response.ok) {
-              return response.json() as Promise<CreateLineItemsResponse>;
+              this.props.history.push('/orders/' + createOrderResponse.id)
+              return;
             }
             throw new Error("Network response was not ok on line items create.")
           })
       })
-      .then(() => this.props.history.push("/"))
       .catch((error: Error) => console.log(error.message));
   }
 
