@@ -11,9 +11,10 @@ Rails.application.routes.draw do
       get 'orders/show/:id', to: 'orders#show'
     end
   end
-  get 'hello_world', to: 'hello_world#index'
+
   get 'delivery', to: 'delivery#index'
   get 'groceries', to: 'groceries#index'
+  get 'orders/:id', to: 'orders#show'
   root 'homepage#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
