@@ -2,6 +2,31 @@
     "translation": {
         "home": {
             "make_order": "Faire une commande"
+        },
+        "basket": {
+            "item": "Article",
+            "price": "Prix",
+            "quantity": "Quantité",
+            "order_now": "Commandez vos courses maintenant"
+        },
+        "grocery_item": {
+            "add": "Ajouter",
+            "remove": "Retirer"
+        },
+        "grocery_list": {
+            "item": "Article",
+            "price": "Prix",
+            "quantity": "Quantité",
+            "search_prompt": "Vous ne trouvez pas ce que vous cherchez? Cliquez sur le bouton ci-dessous pour ajouter un nouvel élément.",
+            "add_new_item": "Ajouter un nouvel élément"
+        },
+        "groceries": {
+            "home": "Accueil",
+            "order": "Ordre",
+            "deliver": "Livrer",
+            "about": "À propos de nous",
+            "search": "Recherchez les articles d'épicerie dont vous avez besoin",
+            "basket": "Panier"
         }
     }
 }

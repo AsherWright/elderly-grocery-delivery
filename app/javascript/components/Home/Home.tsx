@@ -9,8 +9,8 @@ function Home(): JSX.Element {
 
     return (
         <>
-            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>en</Button>
-            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('fr')}>fr</Button>
+            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>English</Button>
+            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('fr')}>Français</Button>
             <Link
                 to="/groceries"
                 role="button"

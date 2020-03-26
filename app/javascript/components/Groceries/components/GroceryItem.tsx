@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Col, Row, Form } from 'react-bootstrap';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 interface GroceryItemProps {
   id: string;
@@ -11,7 +12,7 @@ interface GroceryItemProps {
   handleQuantityChange: (val: number) => void;
 }
 
-export default class GroceryItem extends React.Component<GroceryItemProps> {
+class GroceryItem extends React.Component<GroceryItemProps & WithTranslation> {
   getButtonVariant(): "outline-danger" | "outline-success" {
     if (this.props.inCart) {
       return "outline-danger"
@@ -21,11 +22,9 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
   }
 
   getButtonText(): string {
-    if (this.props.inCart) {
-      return "Remove"
-    } else {
-      return "Add"
-    }
+    const { t } = this.props;
+
+    return this.props.inCart ? t('grocery_item.remove') : t('grocery_item.add')
   }
 
   render(): JSX.Element {
@@ -72,3 +71,5 @@ export default class GroceryItem extends React.Component<GroceryItemProps> {
     );
   }
 }
+
+export default withTranslation()(GroceryItem)

@@ -1,8 +1,32 @@
 {
     "translation": {
-        "test": "cowboy",
         "home": {
             "make_order": "Make an order"
+        },
+        "basket": {
+            "item": "Item",
+            "price": "Price",
+            "quantity": "Quantity",
+            "order_now": "Order your groceries now"
+        },
+        "grocery_item": {
+            "add": "Add",
+            "remove": "Remove"
+        },
+        "grocery_list": {
+            "item": "Item",
+            "price": "Price",
+            "quantity": "Quantity",
+            "search_prompt": "Can't find what you're looking for? Click the button below to add a new item.",
+            "add_new_item": "Add New Item"
+        },
+        "groceries": {
+            "home": "Home",
+            "order": "Order",
+            "deliver": "Deliver",
+            "about": "About",
+            "search": "Search for the groceries you need",
+            "basket": "Basket"
         }
     }
 }
