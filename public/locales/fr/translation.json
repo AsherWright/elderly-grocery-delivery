@@ -21,12 +21,14 @@
             "add_new_item": "Ajouter un nouvel élément"
         },
         "groceries": {
+            "search": "Recherchez les articles d'épicerie dont vous avez besoin",
+            "basket": "Panier"
+        },
+        "master_navbar": {
             "home": "Accueil",
             "order": "Ordre",
             "deliver": "Livrer",
-            "about": "À propos de nous",
-            "search": "Recherchez les articles d'épicerie dont vous avez besoin",
-            "basket": "Panier"
+            "about": "À propos de nous"
         }
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Container, Col, Row, Form, Navbar, Nav } from 'react-bootstrap';
+import { Container, Col, Row, Form } from 'react-bootstrap';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
 
@@ -143,15 +143,6 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
 
     return (
       <>
-        <Navbar bg="light" variant="light">
-          <Navbar.Brand href="#home">GoGetGroceries</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">{t('groceries.home')}</Nav.Link>
-            <Nav.Link href="#order">{t('groceries.order')}</Nav.Link>
-            <Nav.Link href="#deliver">{t('groceries.deliver')}</Nav.Link>
-            <Nav.Link href="#about">{t('groceries.about')}</Nav.Link>
-          </Nav>
-        </Navbar>
         <Container fluid>
           <Row className="justify-content-md-center" style={topPad}>
             <Col>

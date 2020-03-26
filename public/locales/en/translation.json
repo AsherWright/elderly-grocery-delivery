@@ -21,12 +21,14 @@
             "add_new_item": "Add New Item"
         },
         "groceries": {
+            "search": "Search for the groceries you need",
+            "basket": "Basket"
+        },
+        "master_navbar": {
             "home": "Home",
             "order": "Order",
             "deliver": "Deliver",
-            "about": "About",
-            "search": "Search for the groceries you need",
-            "basket": "Basket"
+            "about": "About"
         }
     }
 }
