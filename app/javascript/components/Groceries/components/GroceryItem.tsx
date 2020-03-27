@@ -44,7 +44,7 @@ class GroceryItem extends React.Component<GroceryItemProps & WithTranslation> {
           {this.props.name}
         </Col>
         <Col>
-          {this.props.price}
+          ${this.props.price}
         </Col>
         <Col>
           <Form.Group controlId="exampleForm.ControlSelect1">

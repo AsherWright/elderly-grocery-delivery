@@ -57,6 +57,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     this.modifyItemInList = this.modifyItemInList.bind(this);
     this.handleCreateOrder = this.handleCreateOrder.bind(this);
     this.addNewItemToBasket = this.addNewItemToBasket.bind(this);
+    this.getTotalCartPrice = this.getTotalCartPrice.bind(this);
   }
 
   componentDidMount(): void {
@@ -172,6 +173,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 handleRemovedButtonPressed={this.removeItemFromCart}
                 handleQuantityChange={this.handleCartQuantityChange}
                 handleCreateOrder={this.handleCreateOrder}
+                totalCartPrice={this.getTotalCartPrice(this.state.cartLineItems)}
               />
             </Col>
           </Row>
@@ -229,6 +231,10 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         cartLineItems: [...this.state.cartLineItems, newItem]
       })
     }
+  }
+
+  getTotalCartPrice(cartLineItems: GroceryLineItem[]): number {
+    return cartLineItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }
 }
 

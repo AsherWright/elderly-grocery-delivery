@@ -8,6 +8,7 @@ interface BasketProps {
   handleRemovedButtonPressed: (id: string) => void;
   handleQuantityChange: (id: string, val: number) => void;
   handleCreateOrder: () => void;
+  totalCartPrice: number;
 }
 
 interface GroceryListItem {
@@ -46,6 +47,7 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
         {headers}
         <ListGroup>
           {itemsList}
+          {this.getTotalPriceElement()}
           <ListGroup.Item>
             <Button
               variant="outline-primary"
@@ -58,6 +60,27 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
         </ListGroup>
       </>
     );
+  }
+
+  getTotalPriceElement(): JSX.Element | null {
+    if (this.props.items.length == 0) {
+      return null;
+    } else {
+      return (
+        <ListGroup.Item className='font-weight-bold'>
+          <Row>
+            <Col>
+              Total Price:
+            </Col>
+            <Col>
+              ${this.props.totalCartPrice}
+            </Col>
+            <Col></Col>
+            <Col></Col>
+          </Row>
+        </ListGroup.Item >
+      );
+    }
   }
 }
 
