@@ -70,7 +70,7 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
         <ListGroup.Item className='font-weight-bold'>
           <Row>
             <Col>
-              Total Price:
+              {this.props.t("basket.total_price")}
             </Col>
             <Col>
               ${this.props.totalCartPrice}

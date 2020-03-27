@@ -16,7 +16,8 @@
             "item": "Item",
             "price": "Price",
             "quantity": "Quantity",
-            "order_now": "Order your groceries now"
+            "order_now": "Review your order",
+            "total_price": "Total Price: "
         },
         "grocery_item": {
             "add": "Add",
