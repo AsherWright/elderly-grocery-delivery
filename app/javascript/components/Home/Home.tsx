@@ -1,23 +1,14 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
-import { TFunction } from 'i18next';
 
 function Home(): JSX.Element {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return (
-        <>
-            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>English</Button>
-            <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('fr')}>Français</Button>
-            <Link
-                to="/groceries"
-                role="button"
-            >
-                {t("home.make_order")}
-            </Link>
-        </>
+        <Link to="/groceries" role="button">
+            {t("home.make_order")}
+        </Link>
     );
 }
 
