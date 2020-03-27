@@ -1,7 +1,16 @@
 {
     "translation": {
         "home": {
-            "make_order": "Make an order"
+            "make_order": "Make an order",
+            "order_groceries": "Order groceries",
+            "order_explanation": "Here you can choose items you want to have delivered, set the price that you're willing to pay, and order!",
+            "view_order": "View order",
+            "view_order_explanation": "View the status of an existing order.",
+            "deliver": "Sign up to deliver",
+            "deliver_explanation": "Sign up as a volunteer to help deliver items to people in need!",
+            "deliver_header": "Deliver",
+            "view_order_header": "View Order",
+            "order_header": "Create Order"
         },
         "basket": {
             "item": "Item",
