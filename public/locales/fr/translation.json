@@ -7,7 +7,8 @@
             "item": "Article",
             "price": "Prix",
             "quantity": "Quantité",
-            "order_now": "Commandez vos courses maintenant"
+            "order_now": "Vérifiez votre commande",
+            "total_price": "Prix Total: "
         },
         "grocery_item": {
             "add": "Ajouter",
