@@ -10,6 +10,7 @@ interface GroceryItemProps {
   inCart: boolean;
   handleButtonPressed: (itemId: string) => void;
   handleQuantityChange: (val: number) => void;
+  maxQuantity: number;
 }
 
 class GroceryItem extends React.Component<GroceryItemProps & WithTranslation> {

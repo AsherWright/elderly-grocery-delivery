@@ -9,6 +9,7 @@ interface BasketProps {
   handleQuantityChange: (id: string, val: number) => void;
   handleCreateOrder: () => void;
   totalCartPrice: number;
+  maxQuantityPerItem: number;
 }
 
 interface GroceryListItem {
@@ -38,7 +39,9 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
           quantity={item.quantity}
           inCart={true}
           handleButtonPressed={this.props.handleRemovedButtonPressed}
-          handleQuantityChange={(val): void => this.props.handleQuantityChange(item.id, val)} />
+          handleQuantityChange={(val): void => this.props.handleQuantityChange(item.id, val)}
+          maxQuantity={this.props.maxQuantityPerItem}
+        />
       </ListGroup.Item>
     );
 
