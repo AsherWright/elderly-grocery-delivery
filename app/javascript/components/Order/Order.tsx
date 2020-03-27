@@ -1,14 +1,23 @@
 import { RouteComponentProps } from 'react-router-dom';
 import React from 'react';
 
-interface FetchOrderResponse {
+interface OrderLineItem {
     id: string;
-    created_at: string;
+    quantity: number;
+    groceryItem: GroceryItem;
+}
+
+interface GroceryItem {
+    id: string;
+    name: string;
+    image: string;
+    price: number;
 }
 
 interface Order {
     id: string;
     createdAt: string;
+    orderLineItems: OrderLineItem[];
 }
 
 interface OrderState {
@@ -19,6 +28,25 @@ interface RouteParams {
     id: string;
 }
 
+interface GroceryItemResponse {
+    id: string;
+    name: string;
+    image: string;
+    price: number;
+}
+
+interface OrderLineItemResponse {
+    id: string;
+    quantity: number;
+    grocery_item: GroceryItemResponse;
+}
+
+interface FetchOrderResponse {
+    id: string;
+    created_at: string;
+    order_line_items: OrderLineItemResponse[];
+}
+
 class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderState> {
     constructor(props: RouteComponentProps<RouteParams>) {
         super(props)
@@ -26,7 +54,8 @@ class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderS
         this.state = {
             order: {
                 id: "",
-                createdAt: ""
+                createdAt: "",
+                orderLineItems: []
             },
         }
     }
@@ -45,7 +74,14 @@ class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderS
                 {
                     order: {
                         createdAt: response.created_at,
-                        id: response.id
+                        id: response.id,
+                        orderLineItems: response.order_line_items.map((item) => {
+                            return {
+                                groceryItem: item.grocery_item,
+                                id: item.id,
+                                quantity: item.quantity
+                            }
+                        })
                     }
                 }
             ))
@@ -53,16 +89,31 @@ class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderS
     }
 
     render(): JSX.Element {
+        const { order } = this.state;
         return (
             <div>
-                <h3>
-                    Hi: {this.state.order.id}
-                </h3>
-                <h3>
-                    Hi: {this.state.order.createdAt}
-                </h3>
+                id: {order.id}
+                created at: {order.createdAt}
+                items: {this.getOrderItems()}
             </div>
         );
+    }
+
+    getOrderItems(): JSX.Element {
+        return (<>
+            {this.state.order.orderLineItems.map(this.viewOrderItem)}
+        </>)
+    }
+
+    viewOrderItem(item: OrderLineItem): JSX.Element {
+        return (
+            <>
+                <div>Item id: {item.id}</div>
+                <div>Quantity: {item.quantity}</div>
+                <div>Grocery Item Name: {item.groceryItem.name}</div>
+                <div>Grocery Item Price: {item.groceryItem.price}</div>
+            </>
+        )
     }
 }
 
