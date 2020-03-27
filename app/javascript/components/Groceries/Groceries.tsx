@@ -58,6 +58,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     this.handleCreateOrder = this.handleCreateOrder.bind(this);
     this.addNewItemToBasket = this.addNewItemToBasket.bind(this);
     this.getTotalCartPrice = this.getTotalCartPrice.bind(this);
+    this.getMaxQuantity = this.getMaxQuantity.bind(this);
   }
 
   componentDidMount(): void {
@@ -165,6 +166,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 handleAddButtonPressed={this.addItemToCart}
                 handleQuantityChange={this.handleListQuantityChange}
                 onAddNewItem={this.addNewItemToBasket}
+                maxQuantityPerItem={this.getMaxQuantity()}
               />
             </Col>
             <Col>
@@ -174,6 +176,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 handleQuantityChange={this.handleCartQuantityChange}
                 handleCreateOrder={this.handleCreateOrder}
                 totalCartPrice={this.getTotalCartPrice(this.state.cartLineItems)}
+                maxQuantityPerItem={this.getMaxQuantity()}
               />
             </Col>
           </Row>
@@ -193,7 +196,8 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     const correspondingCartItem = this.state.cartLineItems.find((item) => item.id === id)
 
     if (correspondingCartItem) {
-      const quantity = searchItem.quantity + correspondingCartItem.quantity
+      let quantity = searchItem.quantity + correspondingCartItem.quantity
+      quantity = Math.min(quantity, this.getMaxQuantity())
       this.setState({
         cartLineItems: this.modifyItemInList(this.state.cartLineItems, id, { quantity })
       })
@@ -235,6 +239,10 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
 
   getTotalCartPrice(cartLineItems: GroceryLineItem[]): number {
     return cartLineItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  getMaxQuantity(): number {
+    return (5)
   }
 }
 

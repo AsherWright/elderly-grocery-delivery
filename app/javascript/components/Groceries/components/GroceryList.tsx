@@ -8,6 +8,7 @@ interface GroceryListProps {
   handleAddButtonPressed: (id: string) => void;
   handleQuantityChange: (id: string, val: number) => void;
   onAddNewItem: (itemName: string, itemPrice: string) => void;
+  maxQuantityPerItem: number;
 }
 
 interface GroceryListState {
@@ -76,6 +77,7 @@ class GroceryList extends React.Component<GroceryListPropsWithI18n, GroceryListS
           inCart={false}
           handleButtonPressed={handleAddButtonPressed}
           handleQuantityChange={(val): void => handleQuantityChange(item.id, val)}
+          maxQuantity={this.props.maxQuantityPerItem}
         />
       </ListGroup.Item>
     );
