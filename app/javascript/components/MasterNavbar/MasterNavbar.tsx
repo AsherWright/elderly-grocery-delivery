@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Button, Form, Navbar, Nav } from 'react-bootstrap';
+import { TFunction } from 'i18next';
 
 function MasterNavbar(): JSX.Element {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     return (
         <Navbar bg="light" variant="light">
@@ -14,7 +15,11 @@ function MasterNavbar(): JSX.Element {
                 <Nav.Link href="#deliver">{t('master_navbar.deliver')}</Nav.Link>
                 <Nav.Link href="#about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
-        </Navbar>
+            <Form inline>
+                <Button style={{ marginRight: 10 }} onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>English</Button>
+                <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('fr')}>Français</Button>
+            </Form>
+        </Navbar >
     );
 }
 
