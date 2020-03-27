@@ -196,8 +196,8 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     const correspondingCartItem = this.state.cartLineItems.find((item) => item.id === id)
 
     if (correspondingCartItem) {
-      let quantity = searchItem.quantity + correspondingCartItem.quantity
-      quantity = Math.min(quantity, this.getMaxQuantity())
+      const quantity = Math.min(searchItem.quantity + correspondingCartItem.quantity, this.getMaxQuantity())
+
       this.setState({
         cartLineItems: this.modifyItemInList(this.state.cartLineItems, id, { quantity })
       })
@@ -242,7 +242,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
   }
 
   getMaxQuantity(): number {
-    return (5)
+    return 5;
   }
 }
 
