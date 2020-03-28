@@ -23,12 +23,16 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
   render(): JSX.Element {
     const { t } = this.props;
 
-    const headers = <Row>
-      <Col><h5>{t("basket.item")}</h5></Col>
-      <Col><h5>{t("basket.price")}</h5></Col>
-      <Col><h5>{t("basket.quantity")}</h5></Col>
-      <Col></Col>
-    </Row>
+    const headers = (
+      <ListGroup.Item>
+        <Row>
+          <Col><h6>{t("basket.item")}</h6></Col>
+          <Col><h6>{t("basket.price")}</h6></Col>
+          <Col><h6>{t("basket.quantity")}</h6></Col>
+          <Col></Col>
+        </Row>
+      </ListGroup.Item>
+    );
 
     const itemsList = this.props.items.map((item) =>
       <ListGroup.Item key={item.id}>
@@ -47,8 +51,8 @@ class Basket extends React.Component<BasketProps & WithTranslation> {
 
     return (
       <>
-        {headers}
-        <ListGroup>
+        <ListGroup variant="flush">
+          {headers}
           {itemsList}
           {this.getTotalPriceElement()}
           <ListGroup.Item>

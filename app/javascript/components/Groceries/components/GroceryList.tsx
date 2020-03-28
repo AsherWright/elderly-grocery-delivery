@@ -59,13 +59,15 @@ class GroceryList extends React.Component<GroceryListPropsWithI18n, GroceryListS
     } = this.props
 
     const headers = (
-      <Row>
-        <Col><h5>{t('grocery_list.item')}</h5></Col>
-        <Col><h5>{t('grocery_list.price')}</h5></Col>
-        <Col><h5>{t('grocery_list.quantity')}</h5></Col>
-        <Col></Col>
-      </Row>
-    )
+      <ListGroup.Item>
+        <Row>
+          <Col><h6>{t('grocery_list.item')}</h6></Col>
+          <Col><h6>{t('grocery_list.price')}</h6></Col>
+          <Col><h6>{t('grocery_list.quantity')}</h6></Col>
+          <Col></Col>
+        </Row>
+      </ListGroup.Item>
+    );
 
     const itemsList = items.map((item) =>
       <ListGroup.Item key={item.id}>
@@ -84,8 +86,8 @@ class GroceryList extends React.Component<GroceryListPropsWithI18n, GroceryListS
 
     return (
       <>
-        {headers}
-        <ListGroup>
+        <ListGroup variant="flush">
+          {headers}
           {itemsList}
           <ListGroup.Item>
             <p className="text-center">{t('grocery_list.search_prompt')}</p>
