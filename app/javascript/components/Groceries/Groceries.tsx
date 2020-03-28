@@ -164,7 +164,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     return (
       <>
         <Container fluid>
-          <Row className="justify-content-md-center" style={{ paddingTop: 30 }}>
+          <Row className="justify-content-md-center pt-4">
             <Col>
               <Form.Group>
                 <Form.Control
