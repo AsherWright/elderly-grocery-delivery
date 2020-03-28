@@ -4,10 +4,6 @@ import { Container, Col, Row, Form } from 'react-bootstrap';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
 
-const topPad = {
-  paddingTop: 30
-}
-
 interface FetchGroceryItemsResponseElement {
   id: string;
   name: string;
@@ -18,10 +14,6 @@ interface CreateOrderResponse {
   id: string;
 }
 
-interface CreateLineItemsResponse {
-
-}
-
 interface GroceryItem {
   id: string;
   name: string;
@@ -30,6 +22,7 @@ interface GroceryItem {
 
 interface GroceryLineItem extends GroceryItem {
   quantity: number;
+  new: boolean;
 }
 
 interface GroceriesState {
@@ -80,10 +73,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     const regex = new RegExp(text, "i");
     const matchingGroceryItems = text === "" ? [] : this.state.groceryItems.filter(x => regex.test(x.name))
 
-    const searchLineItems = matchingGroceryItems.map((item) => {
+    const searchLineItems: GroceryLineItem[] = matchingGroceryItems.map((item) => {
       return {
         ...item,
-        quantity: 1
+        quantity: 1,
+        new: false,
       }
     });
 
@@ -93,13 +87,17 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
   handleCreateOrder(): void {
     const lineItemsUrl = "/api/v1/order_line_items/create";
     const ordersUrl = "/api/v1/orders/create";
+    const groceriesUrl = "/api/v1/grocery_items/create";
+
     const { cartLineItems } = this.state;
 
     if (cartLineItems.length == 0)
       return;
 
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-    const fetchParams = (body: string) => {
+    const docToken = document.querySelector('meta[name="csrf-token"]');
+    const token = docToken && docToken.getAttribute("content") || "";
+
+    const fetchParams = (body: string): RequestInit => {
       return {
         method: "POST",
         headers: {
@@ -118,23 +116,43 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         throw new Error("Network response was not ok on order create.");
       })
       .then((createOrderResponse: CreateOrderResponse) => {
-        const lineItemsBody =
-        {
-          items: cartLineItems.map((item) => {
+        const groceriesBody = {
+          items: cartLineItems.filter(x => x.new).map((item) => {
             return {
+              name: item.name,
+              price: item.price,
               quantity: item.quantity,
-              order_id: createOrderResponse.id,
-              grocery_item_id: item.id
+              user_id: this.getUserId()
             }
           })
         };
-        fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
+
+        fetch(groceriesUrl, fetchParams(JSON.stringify(groceriesBody)))
           .then((response: Response) => {
             if (response.ok) {
-              this.props.history.push('/orders/' + createOrderResponse.id)
-              return;
+              return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
             }
-            throw new Error("Network response was not ok on line items create.")
+            throw new Error("Network response was not ok on groceries create.");
+          })
+          .then((createGroceriesResponse: FetchGroceryItemsResponseElement[]) => {
+            const lineItemsBody = {
+              items: cartLineItems.map((item) => {
+                return {
+                  quantity: item.quantity,
+                  order_id: createOrderResponse.id,
+                  grocery_item_id: item.new ? createGroceriesResponse.find((x) => x.name == item.name)?.id : item.id
+                }
+              })
+            };
+
+            fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
+              .then((response: Response) => {
+                if (response.ok) {
+                  this.props.history.push('/orders/' + createOrderResponse.id)
+                  return;
+                }
+                throw new Error("Network response was not ok on line items create.")
+              })
           })
       })
       .catch((error: Error) => console.log(error.message));
@@ -146,7 +164,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
     return (
       <>
         <Container fluid>
-          <Row className="justify-content-md-center" style={topPad}>
+          <Row className="justify-content-md-center" style={{ paddingTop: 30 }}>
             <Col>
               <Form.Group>
                 <Form.Control
@@ -227,7 +245,14 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
   }
 
   addNewItemToBasket(itemName: string, itemPrice: string): void {
-    const newItem: GroceryLineItem = { name: itemName, price: Number(itemPrice), quantity: 1, id: itemName }
+    const newItem: GroceryLineItem = {
+      name: itemName,
+      price: Number(itemPrice),
+      quantity: 1,
+      id: itemName,
+      new: true
+    }
+
     const itemAlreadyExists: boolean = this.state.cartLineItems.some((item) => item.name === itemName)
 
     if (!itemAlreadyExists) {
@@ -243,6 +268,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
 
   getMaxQuantity(): number {
     return 5;
+  }
+
+  getUserId(): string {
+    // This will be implemented once we add users
+    return "temp_id";
   }
 }
 

@@ -36,6 +36,6 @@ class Api::V1::OrderLineItemsController < ApplicationController
   end
 
   def order_line_item_params
-    params.require([:quantity, :price, :grocery_item_id, :order_id])
+    params.require([:quantity, :grocery_item_id, :order_id])
   end
 end
