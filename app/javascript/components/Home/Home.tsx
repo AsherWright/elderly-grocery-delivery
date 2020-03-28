@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { CardDeck, Col, Container, Row } from 'react-bootstrap';
+import { CardDeck, Col, Container, Row, Image } from 'react-bootstrap';
+import LongLogo from '../../../assets/images/long_logo.png';
 import { HomeCard } from './components';
 
 function getHomeCard(
@@ -57,7 +58,8 @@ function Home(): JSX.Element {
 
     return (
         <Container>
-            <Row className="justify-content-md-center" style={{ justifyContent: "center", alignItems: "center", height: "80vh" }}>
+            <Image src={LongLogo} fluid />
+            <Row className="justify-content-md-center mt-5">
                 <Col md="auto">
                     <CardDeck>
                         {getOrderGroceriesCard(t)}
