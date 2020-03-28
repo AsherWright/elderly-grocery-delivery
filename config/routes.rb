@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       get 'order_line_items/show/:id', to: 'order_line_items#show'
       post 'orders/create'
       get 'orders/show/:id', to: 'orders#show'
+      get 'addresses/create'
+      get 'addresses/show/:id', to: 'addresses#show'
     end
   end
   get '*path', to: 'homepage#index'
