@@ -1,7 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap'
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { OrderItemList } from './components'
+import { OrderItemList, OrderDeliveryForm } from './components'
 import React from 'react';
 
 interface OrderLineItem {
@@ -103,14 +103,24 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
 
         return (
             <Container>
-                <Row>
+                <Row className="mt-4">
                     <Col xs={12} md={6}>
+                        <h3
+                            className='text-center'
+                        >
+                            {t('order.order_summary')}
+                        </h3>
                         <OrderItemList
                             OrderListItems={this.state.order.orderLineItems}
                         />
                     </Col>
                     <Col xs={12} md={6}>
-
+                        <h3
+                            className='text-center'
+                        >
+                            {t('order.delivery_details')}
+                        </h3>
+                        <OrderDeliveryForm />
                     </Col>
                 </Row>
             </Container>
