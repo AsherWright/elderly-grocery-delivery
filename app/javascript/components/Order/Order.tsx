@@ -1,4 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
+import { Row, Col, Container } from 'react-bootstrap'
+import { withTranslation, WithTranslation } from 'react-i18next';
+import { OrderItemList } from './components'
 import React from 'react';
 
 interface OrderLineItem {
@@ -47,8 +50,14 @@ interface FetchOrderResponse {
     order_line_items: OrderLineItemResponse[];
 }
 
-class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderState> {
-    constructor(props: RouteComponentProps<RouteParams>) {
+interface OrderProps {
+    items: OrderLineItem[];
+}
+
+type OrderPageProps = OrderProps & RouteComponentProps<RouteParams> & WithTranslation
+
+class OrderPage extends React.Component<OrderPageProps, OrderState> {
+    constructor(props: OrderPageProps) {
         super(props)
 
         this.state = {
@@ -89,32 +98,24 @@ class OrderPage extends React.Component<RouteComponentProps<RouteParams>, OrderS
     }
 
     render(): JSX.Element {
+        const { t } = this.props
         const { order } = this.state;
+
         return (
-            <div>
-                id: {order.id}
-                created at: {order.createdAt}
-                items: {this.getOrderItems()}
-            </div>
+            <Container>
+                <Row>
+                    <Col xs={12} md={6}>
+                        <OrderItemList
+                            OrderListItems={this.state.order.orderLineItems}
+                        />
+                    </Col>
+                    <Col xs={12} md={6}>
+
+                    </Col>
+                </Row>
+            </Container>
         );
-    }
-
-    getOrderItems(): JSX.Element {
-        return (<>
-            {this.state.order.orderLineItems.map(this.viewOrderItem)}
-        </>)
-    }
-
-    viewOrderItem(item: OrderLineItem): JSX.Element {
-        return (
-            <>
-                <div>Item id: {item.id}</div>
-                <div>Quantity: {item.quantity}</div>
-                <div>Grocery Item Name: {item.groceryItem.name}</div>
-                <div>Grocery Item Price: {item.groceryItem.price}</div>
-            </>
-        )
     }
 }
 
-export default OrderPage;
+export default withTranslation()(OrderPage);

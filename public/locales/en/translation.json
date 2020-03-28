@@ -39,6 +39,12 @@
             "order": "Order",
             "deliver": "Deliver",
             "about": "About"
+        },
+        "order_list": {
+            "name": "Item Name",
+            "quantity": "Quantity",
+            "price": "Price",
+            "total_price": "Total Price:"
         }
     }
 }
