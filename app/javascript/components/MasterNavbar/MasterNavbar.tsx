@@ -16,7 +16,7 @@ function MasterNavbar(): JSX.Element {
                 <Nav.Link href="#about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
             <Form inline>
-                <Button style={{ marginRight: 10 }} onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>English</Button>
+                <Button className="mr-1" onClick={(): Promise<TFunction> => i18n.changeLanguage('en')}>English</Button>
                 <Button onClick={(): Promise<TFunction> => i18n.changeLanguage('fr')}>Français</Button>
             </Form>
         </Navbar >
