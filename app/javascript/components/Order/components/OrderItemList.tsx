@@ -1,5 +1,5 @@
 import { Row, Col, ListGroup } from 'react-bootstrap'
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { OrderItem } from '.';
 
@@ -19,8 +19,6 @@ interface GroceryItem {
 interface OrderItemListProps {
     OrderListItems: OrderLineItem[];
 }
-
-type allOrderItemListProps = OrderItemListProps & WithTranslation
 
 function getTotalPrice(itemsList: OrderLineItem[]): number {
     return itemsList.reduce((total, item) => total + item.groceryItem.price * item.quantity, 0);
@@ -42,9 +40,8 @@ function getTotalPriceElement(itemsList: OrderLineItem[], totalText: string): JS
     }
 }
 
-function OrderItemList(props: allOrderItemListProps): JSX.Element {
-
-    const { t } = props
+function OrderItemList(props: OrderItemListProps): JSX.Element {
+    const { t } = useTranslation();
 
     const headers = (
         <Row>
@@ -79,7 +76,6 @@ function OrderItemList(props: allOrderItemListProps): JSX.Element {
 
         </>
     )
-
 }
 
-export default withTranslation()(OrderItemList);
+export default OrderItemList;

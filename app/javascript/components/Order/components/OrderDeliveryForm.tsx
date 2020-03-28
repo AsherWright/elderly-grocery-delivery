@@ -29,17 +29,14 @@ function OrderDeliveryForm(): JSX.Element {
     return (
         <>
             <Form>
-
                 {getFormElement('first_name')}
                 {getFormElement('phone_number')}
                 {getFormElement('address')}
                 {getFormElement('postal_code')}
                 {getFormElement('email')}
                 {getFormElement('delivery_notes')}
-
-
                 <Button variant="primary" type="submit">
-                    Submit
+                    {getTranslation('submit')}
                 </Button>
             </Form>
         </>

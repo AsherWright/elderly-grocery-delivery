@@ -62,7 +62,8 @@
             "email": "Email",
             "placeholder_email": "e.g. jane@appleseed.com",
             "delivery_notes": "Notes for delivery-person",
-            "placeholder_delivery_notes": "e.g. Last house on the right"
+            "placeholder_delivery_notes": "e.g. Last house on the right",
+            "submit": "Submit"
         }
     }
 }
