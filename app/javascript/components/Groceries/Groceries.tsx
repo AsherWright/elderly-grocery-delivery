@@ -108,7 +108,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
       }
     }
 
-    fetch(ordersUrl, fetchParams(""))
+    const orderBody = {
+      status: "unconfirmed"
+    }
+
+    fetch(ordersUrl, fetchParams(JSON.stringify(orderBody)))
       .then((response: Response) => {
         if (response.ok) {
           return response.json() as Promise<CreateOrderResponse>;
