@@ -39,6 +39,31 @@
             "order": "Ordre",
             "deliver": "Livrer",
             "about": "À propos de nous"
+        },
+        "order": {
+            "order_summary": "FRENCH ORDER SUMMARY",
+            "delivery_details": "FRENCH DELIVERY DETAILS"
+        },
+        "order_item_list": {
+            "item": "Article",
+            "quantity": "Quantité",
+            "price": "Prix",
+            "total_price": "Prix Total:"
+        },
+        "order_delivery_form": {
+            "first_name": "FRENCH First Name",
+            "placeholder_first_name": "FRENCH e.g. Jane Appleseed",
+            "phone_number": "FRENCH Phone Number",
+            "placeholder_phone_number": "FRENCH e.g. 514 555 1234",
+            "address": "FRENCH Address",
+            "placeholder_address": "FRENCH e.g. 1 Cherry Lane",
+            "postal_code": "FRENCH Postal Code",
+            "placeholder_postal_code": "FRENCH e.g. G1A 1A1",
+            "email": "FRENCH Email",
+            "placeholder_email": "FRENCH e.g. jane@appleseed.com",
+            "delivery_notes": "FRENCH Notes for delivery-person",
+            "placeholder_delivery_notes": "FRENCH e.g. Last house on the right",
+            "submit": "FRENCH Submit"
         }
     }
 }

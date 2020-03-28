@@ -39,6 +39,31 @@
             "order": "Order",
             "deliver": "Deliver",
             "about": "About"
+        },
+        "order": {
+            "order_summary": "Order Summary",
+            "delivery_details": "Delivery Details"
+        },
+        "order_item_list": {
+            "item": "Item Name",
+            "quantity": "Quantity",
+            "price": "Price",
+            "total_price": "Total Price:"
+        },
+        "order_delivery_form": {
+            "first_name": "First Name",
+            "placeholder_first_name": "e.g. Jane Appleseed",
+            "phone_number": "Phone Number",
+            "placeholder_phone_number": "e.g. 514 555 1234",
+            "address": "Address",
+            "placeholder_address": "e.g. 1 Cherry Lane",
+            "postal_code": "Postal Code",
+            "placeholder_postal_code": "e.g. G1A 1A1",
+            "email": "Email",
+            "placeholder_email": "e.g. jane@appleseed.com",
+            "delivery_notes": "Notes for delivery-person",
+            "placeholder_delivery_notes": "e.g. Last house on the right",
+            "submit": "Submit"
         }
     }
 }
