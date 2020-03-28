@@ -56,7 +56,7 @@ function OrderItemList(props: OrderItemListProps): JSX.Element {
             <OrderItem
                 id={item.id}
                 name={item.groceryItem.name}
-                price={item.groceryItem.price * item.quantity}
+                price={item.groceryItem.price}
                 quantity={item.quantity}
             />
         </ListGroup.Item>
