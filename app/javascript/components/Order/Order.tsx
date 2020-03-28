@@ -1,7 +1,6 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Container } from 'react-bootstrap'
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { OrderItemList, OrderDeliveryForm } from './components'
+import { UnconfirmedOrderPage, ConfirmedOrderPage } from './components'
 import React from 'react';
 
 interface OrderLineItem {
@@ -19,6 +18,7 @@ interface GroceryItem {
 
 interface Order {
     id: string;
+    status: OrderStatus;
     createdAt: string;
     orderLineItems: OrderLineItem[];
 }
@@ -47,6 +47,7 @@ interface OrderLineItemResponse {
 interface FetchOrderResponse {
     id: string;
     created_at: string;
+    status: string;
     order_line_items: OrderLineItemResponse[];
 }
 
@@ -54,19 +55,24 @@ interface OrderProps {
     items: OrderLineItem[];
 }
 
+enum OrderStatus {
+    Unconfirmed,
+    Confirmed,
+    Assigned,
+    BeingDelivered,
+    Completed,
+    Cancelled,
+    Unknown
+}
+
 type OrderPageProps = OrderProps & RouteComponentProps<RouteParams> & WithTranslation
 
 class OrderPage extends React.Component<OrderPageProps, OrderState> {
     constructor(props: OrderPageProps) {
-        super(props)
+        super(props);
 
-        this.state = {
-            order: {
-                id: "",
-                createdAt: "",
-                orderLineItems: []
-            },
-        }
+        this.state = { order: { status: OrderStatus.Unknown, id: "", createdAt: "", orderLineItems: [] } };
+        this.confirmOrder = this.confirmOrder.bind(this);
     }
 
     componentDidMount(): void {
@@ -82,6 +88,7 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
             .then(response => this.setState(
                 {
                     order: {
+                        status: this.convertToOrderStatus(response.status),
                         createdAt: response.created_at,
                         id: response.id,
                         orderLineItems: response.order_line_items.map((item) => {
@@ -98,33 +105,48 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
     }
 
     render(): JSX.Element {
-        const { t } = this.props
-        const { order } = this.state;
+        return this.getOrderPage();
+    }
 
-        return (
-            <Container>
-                <Row className="mt-4">
-                    <Col xs={12} md={6}>
-                        <h3
-                            className='text-center'
-                        >
-                            {t('order.order_summary')}
-                        </h3>
-                        <OrderItemList
-                            OrderListItems={this.state.order.orderLineItems}
-                        />
-                    </Col>
-                    <Col xs={12} md={6}>
-                        <h3
-                            className='text-center'
-                        >
-                            {t('order.delivery_details')}
-                        </h3>
-                        <OrderDeliveryForm />
-                    </Col>
-                </Row>
-            </Container>
-        );
+    getOrderPage(): JSX.Element {
+        const { order: { status, orderLineItems } } = this.state;
+
+        switch (status) {
+            case OrderStatus.Unconfirmed:
+                return <UnconfirmedOrderPage
+                    orderLineItems={orderLineItems}
+                    onSubmit={this.confirmOrder}
+                />;
+            case OrderStatus.Confirmed:
+                return <ConfirmedOrderPage />;
+            default:
+                return <></>;
+        }
+    }
+
+    convertToOrderStatus(status: string): OrderStatus {
+        switch (status) {
+            case "unconfirmed":
+                return OrderStatus.Unconfirmed;
+            case "confirmed":
+                return OrderStatus.Confirmed;
+            case "assigned":
+                return OrderStatus.Assigned;
+            case "being_delivered":
+                return OrderStatus.BeingDelivered;
+            case "completed":
+                return OrderStatus.Completed;
+            case "cancelled":
+                return OrderStatus.Cancelled;
+            default:
+                return OrderStatus.Unknown;
+        }
+    }
+
+    confirmOrder(): void {
+        this.setState({
+            order: { ...this.state.order, status: OrderStatus.Confirmed }
+        })
     }
 }
 

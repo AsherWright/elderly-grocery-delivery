@@ -25,10 +25,14 @@ function getFormElement(fieldTitle: string): JSX.Element {
     );
 }
 
-function OrderDeliveryForm(): JSX.Element {
+interface OrderDeliveryFormProps {
+    onSubmit: () => void;
+}
+
+function OrderDeliveryForm(props: OrderDeliveryFormProps): JSX.Element {
     return (
         <>
-            <Form>
+            <Form onSubmit={props.onSubmit}>
                 {getFormElement('first_name')}
                 {getFormElement('phone_number')}
                 {getFormElement('address')}
