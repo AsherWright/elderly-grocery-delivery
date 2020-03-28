@@ -178,7 +178,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
             <Col><h3 className="text-center">{t('groceries.basket')}</h3></Col>
           </Row>
           <Row>
-            <Col>
+            <Col sm={12} md={6}>
               <GroceryList
                 items={this.state.searchLineItems}
                 handleAddButtonPressed={this.addItemToCart}
@@ -187,7 +187,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 maxQuantityPerItem={this.getMaxQuantity()}
               />
             </Col>
-            <Col>
+            <Col sm={12} md={6}>
               <Basket
                 items={this.state.cartLineItems}
                 handleRemovedButtonPressed={this.removeItemFromCart}
