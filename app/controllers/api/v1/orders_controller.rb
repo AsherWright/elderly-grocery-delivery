@@ -18,10 +18,22 @@ class Api::V1::OrdersController < ApplicationController
       render json: order, include: {order_line_items: { include: :grocery_item }}
     end
 
+    def update
+      if order = Order.find(params[:id])
+        order.update!(order_update_params)
+
+        render json: order
+      end
+    end
+
     def destroy
     end
 
     private
+
+    def order_update_params
+      params.permit(:status, :destination_id, :delivery_notes, :phone_number)
+    end
 
     def order_params
       params.permit(:status)

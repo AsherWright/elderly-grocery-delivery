@@ -18,6 +18,7 @@ interface GroceryItem {
 
 interface UnconfirmedOrderPageProps {
     orderLineItems: OrderLineItem[];
+    orderId: string;
     onSubmit: () => void;
 }
 
@@ -43,7 +44,7 @@ function UnconfirmedOrderPage(props: UnconfirmedOrderPageProps): JSX.Element {
                     >
                         {t('order.delivery_details')}
                     </h3>
-                    <OrderDeliveryForm onSubmit={props.onSubmit} />
+                    <OrderDeliveryForm onSubmit={props.onSubmit} orderId={props.orderId} />
                 </Col>
             </Row>
         </Container>

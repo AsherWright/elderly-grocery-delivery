@@ -109,13 +109,14 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
     }
 
     getOrderPage(): JSX.Element {
-        const { order: { status, orderLineItems } } = this.state;
+        const { order } = this.state;
 
-        switch (status) {
+        switch (order.status) {
             case OrderStatus.Unconfirmed:
                 return <UnconfirmedOrderPage
-                    orderLineItems={orderLineItems}
+                    orderLineItems={order.orderLineItems}
                     onSubmit={this.confirmOrder}
+                    orderId={order.id}
                 />;
             case OrderStatus.Confirmed:
                 return <ConfirmedOrderPage />;
