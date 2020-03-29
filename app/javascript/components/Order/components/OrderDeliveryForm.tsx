@@ -59,7 +59,8 @@ function getFormElement(fieldTitle: string, value: string, onChange: (newVal: st
     );
 }
 
-function submitForm(formValues: OrderDeliveryForm, orderId: string, onSubmit: () => void): void {
+function submitForm(event: React.FormEvent<HTMLFormElement>, formValues: OrderDeliveryForm, orderId: string, onSubmit: () => void): void {
+    event.preventDefault()
     // TODO: add form validation here
     const addressUrl = "/api/v1/addresses/create";
     const ordersUrl = "/api/v1/orders/update"
@@ -141,7 +142,7 @@ function OrderDeliveryForm(props: OrderDeliveryFormProps): JSX.Element {
 
     return (
         <>
-            <Form onSubmit={(): void => submitForm(formValues, props.orderId, props.onSubmit)}>
+            <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, formValues, props.orderId, props.onSubmit)}>
                 {getFormElement('first_name', formValues.firstName, (firstName: string) => updateFormValues({ firstName }))}
                 {getFormElement('phone_number', formValues.phoneNumber, (phoneNumber: string) => updateFormValues({ phoneNumber }))}
                 {getFormElement('address', formValues.address, (address: string) => updateFormValues({ address }))}

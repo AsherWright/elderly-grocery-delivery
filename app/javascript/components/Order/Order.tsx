@@ -120,8 +120,8 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                 />;
             case OrderStatus.Confirmed:
                 return <ConfirmedOrderPage
-                    orderLineItems={orderLineItems}
-                    status={status} />;
+                    orderLineItems={order.orderLineItems}
+                    status={order.status} />;
             default:
                 return <></>;
         }
