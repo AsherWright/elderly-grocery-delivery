@@ -119,7 +119,9 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                     orderId={order.id}
                 />;
             case OrderStatus.Confirmed:
-                return <ConfirmedOrderPage />;
+                return <ConfirmedOrderPage
+                    orderLineItems={orderLineItems}
+                    status={status} />;
             default:
                 return <></>;
         }

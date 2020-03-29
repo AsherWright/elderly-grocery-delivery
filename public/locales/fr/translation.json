@@ -69,7 +69,8 @@
             "placeholder_email": "FRENCH e.g. jane@appleseed.com",
             "delivery_notes": "FRENCH Notes for delivery-person",
             "placeholder_delivery_notes": "FRENCH e.g. Last house on the right",
-            "submit": "FRENCH Submit"
+            "submit": "FRENCH Submit",
+            "thank_you": "Merci pour ORDERING"
         }
     }
 }
