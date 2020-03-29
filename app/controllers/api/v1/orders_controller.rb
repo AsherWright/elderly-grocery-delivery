@@ -1,5 +1,12 @@
 class Api::V1::OrdersController < ApplicationController
     def index
+      orders = if params[:status]
+        Order.where(category: params[:status])
+      else
+        Order.all
+      end
+
+      render json: orders
     end
 
     def create

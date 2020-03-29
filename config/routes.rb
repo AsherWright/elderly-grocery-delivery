@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       delete 'grocery_items/destroy/:id', to: 'grocery_items#destroy'
       post 'order_line_items/create'
       get 'order_line_items/show/:id', to: 'order_line_items#show'
+      get 'orders/index'
       post 'orders/create'
       post 'orders/update'
       get 'orders/show/:id', to: 'orders#show'
