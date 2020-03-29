@@ -8,8 +8,9 @@ Rails.application.routes.draw do
       post 'order_line_items/create'
       get 'order_line_items/show/:id', to: 'order_line_items#show'
       post 'orders/create'
+      post 'orders/update'
       get 'orders/show/:id', to: 'orders#show'
-      get 'addresses/create'
+      post 'addresses/create'
       get 'addresses/show/:id', to: 'addresses#show'
     end
   end

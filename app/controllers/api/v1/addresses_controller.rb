@@ -18,6 +18,6 @@ class Api::V1::AddressesController < ApplicationController
   private
 
   def address_params
-    params.permit(:address)
+    params.permit(:address, :name, :address_line, :postal_code, :city, :province, :country, :email)
   end
 end
