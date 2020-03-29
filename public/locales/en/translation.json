@@ -42,7 +42,8 @@
         },
         "order": {
             "order_summary": "Order Summary",
-            "delivery_details": "Delivery Details"
+            "delivery_details": "Delivery Details",
+            "thank_you": "Thank you for making an order."
         },
         "order_item_list": {
             "item": "Item Name",
@@ -64,6 +65,20 @@
             "delivery_notes": "Notes for delivery-person",
             "placeholder_delivery_notes": "e.g. Last house on the right",
             "submit": "Submit"
+        },
+        "order_alert": {
+            "confirmed_heading": "We've got your order.",
+            "confirmed_body": "We've your order. We're finding someone to help deliver it to you.",
+            "assigned_heading": "We found a delivery driver.",
+            "assigned_body": "We found a delivery driver for you. Your order will be on the way shortly.",
+            "being_delivered_heading": "On its way.",
+            "being_delivered_body": "Your order is on its way. Your delivery driver will contact you directly to give you more details.",
+            "completed_heading": "Your order has arrived!",
+            "completed_body": "Your delivery driver has confirmed that they've deliverd your order. Enjoy!",
+            "cancelled_heading": "Your order has been cancelled.",
+            "cancelled_body": "It looks like your order has been cancelled. We hope we can help you next time!",
+            "default_heading": "Something has gone wrong.",
+            "default_body": "Sorry, we're having some issues. Try re-doing your order."
         }
     }
 }

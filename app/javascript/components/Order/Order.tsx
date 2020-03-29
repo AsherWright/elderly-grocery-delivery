@@ -118,7 +118,9 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                     onSubmit={this.confirmOrder}
                 />;
             case OrderStatus.Confirmed:
-                return <ConfirmedOrderPage />;
+                return <ConfirmedOrderPage
+                    orderLineItems={orderLineItems}
+                    status={status} />;
             default:
                 return <></>;
         }
