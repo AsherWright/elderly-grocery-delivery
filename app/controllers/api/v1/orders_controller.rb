@@ -1,7 +1,7 @@
 class Api::V1::OrdersController < ApplicationController
     def index
       orders = if params[:status]
-        Order.where(category: params[:status])
+        Order.where(status: params[:status])
       else
         Order.all
       end

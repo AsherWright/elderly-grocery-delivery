@@ -45,7 +45,7 @@ function Deliveries(): JSX.Element {
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        const url = "/api/v1/orders/index/";
+        const url = "/api/v1/orders/index/?status=confirmed";
 
         fetch(url)
             .then((response: Response) => {
