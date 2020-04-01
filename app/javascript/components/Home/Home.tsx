@@ -4,6 +4,7 @@ import { TFunction } from 'i18next';
 import { CardDeck, Col, Container, Row, Image } from 'react-bootstrap';
 import LongLogo from '../../../assets/images/long_logo.png';
 import { HomeCard } from './components';
+import { Link } from "react-router-dom";
 
 function getHomeCard(
     buttonText: string,
@@ -68,6 +69,9 @@ function Home(): JSX.Element {
                     </CardDeck>
                 </Col>
             </Row>
+            <Link to='/users'>
+                Log in
+            </Link>
         </Container>
     );
 }
