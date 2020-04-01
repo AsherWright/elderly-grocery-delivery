@@ -15,7 +15,10 @@ Rails.application.routes.draw do
       get 'addresses/show/:id', to: 'addresses#show'
     end
   end
+
   get '*path', to: 'homepage#index'
   root 'homepage#index'
+
+  devise_for :users, controllers: { registrations: 'api/v1/registrations', sessions: 'api/v1/sessions' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
