@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get 'orders/show/:id', to: 'orders#show'
       post 'addresses/create'
       get 'addresses/show/:id', to: 'addresses#show'
+      get 'users/show'
     end
   end
 

@@ -53,7 +53,6 @@ function MasterNavbar(): JSX.Element {
             </Nav>
             <Form inline>
                 {getUserButton(userContext)}
-                <Button onClick={(): void => handleLogOut(userContext.setUser)}>Log out</Button>
             </Form>
         </Navbar >
     );

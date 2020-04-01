@@ -6,6 +6,7 @@ import { UserContext } from '../../UserContext';
 interface SignInUserResponse {
     id: string;
     email: string;
+    name: string;
 }
 
 function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, password: string, setRedirect: (val: boolean) => void, setUser: (val: string) => void): void {
@@ -32,7 +33,7 @@ function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, pass
         throw new Error("Network response was not ok on user sign in.");
     }).then((response) => {
         console.log(response)
-        setUser(response.email)
+        setUser(response.name)
         setRedirect(true)
     })
 }
