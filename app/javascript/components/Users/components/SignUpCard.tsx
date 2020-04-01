@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
-function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, password: string, setRedirect: (val: boolean) => void): void {
+interface User {
+    email: string;
+    password: string;
+    name: string;
+}
+
+function submitForm(event: React.FormEvent<HTMLFormElement>, user: User, setRedirect: (val: boolean) => void): void {
     event.preventDefault()
 
     const usersUrl = "/users";
     const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content") || "";
 
-    const signUpBody = { user: { email, password } }
+    const signUpBody = { user: { ...user } }
 
     const params = {
         method: "POST",
@@ -51,7 +57,7 @@ function SignUpCard(): JSX.Element {
                     <Card.Title style={{ textAlign: "center" }}>Welcome to GoGetGroceries</Card.Title>
                     <Card.Text className="text-muted" style={{ textAlign: "center" }}>To get started, you'll need to create an account by filling out the form below.</Card.Text>
                     <hr />
-                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, email, password, setRedirect)}>
+                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, { email, password, name }, setRedirect)}>
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control

@@ -54,7 +54,6 @@ function SignInCard(): JSX.Element {
     return (
         <div>
             {renderRedirect(redirect)}
-
             <Card>
                 <Card.Body>
                     <Card.Title style={{ textAlign: "center" }}>Sign In</Card.Title>
