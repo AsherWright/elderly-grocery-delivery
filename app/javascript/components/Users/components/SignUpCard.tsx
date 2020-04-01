@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { UserContext } from '../../UserContext';
 
 interface User {
     email: string;
@@ -8,7 +9,7 @@ interface User {
     name: string;
 }
 
-function submitForm(event: React.FormEvent<HTMLFormElement>, user: User, setRedirect: (val: boolean) => void): void {
+function submitForm(event: React.FormEvent<HTMLFormElement>, user: User, setRedirect: (val: boolean) => void, setUser: (val: string) => void): void {
     event.preventDefault()
 
     const usersUrl = "/users";
@@ -27,6 +28,7 @@ function submitForm(event: React.FormEvent<HTMLFormElement>, user: User, setRedi
 
     fetch(usersUrl, params).then((response: Response) => {
         if (response.ok) {
+            setUser(response.name)
             setRedirect(true)
             return response.json();
         }
@@ -43,6 +45,7 @@ function renderRedirect(redirect: boolean): JSX.Element | null {
 }
 
 function SignUpCard(): JSX.Element {
+    const userContext = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
@@ -57,7 +60,7 @@ function SignUpCard(): JSX.Element {
                     <Card.Title style={{ textAlign: "center" }}>Welcome to GoGetGroceries</Card.Title>
                     <Card.Text className="text-muted" style={{ textAlign: "center" }}>To get started, you'll need to create an account by filling out the form below.</Card.Text>
                     <hr />
-                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, { email, password, name }, setRedirect)}>
+                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, { email, password, name }, setRedirect, userContext.setUser)}>
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control

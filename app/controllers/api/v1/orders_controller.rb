@@ -43,6 +43,6 @@ class Api::V1::OrdersController < ApplicationController
     end
 
     def order_params
-      params.permit(:status)
+      params.permit(:status).merge(user_id: current_user.id)
     end
 end

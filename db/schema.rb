@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_01_225847) do
+ActiveRecord::Schema.define(version: 2020_04_01_234325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_225847) do
     t.text "delivery_notes"
     t.string "phone_number"
     t.string "email"
+    t.string "user_id", null: false
     t.index ["status"], name: "index_orders_on_status"
   end
 
