@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { Button, Form, Navbar, Nav } from 'react-bootstrap';
+import { UserContext } from '../UserContext';
 
-function handleLogOut(): void {
+function handleLogOut(setUser: (user: string) => void): void {
     const logOutUrl = "/users/sign_out";
     const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content") || "";
 
@@ -18,13 +19,27 @@ function handleLogOut(): void {
     fetch(logOutUrl, params).then((response: Response) => {
         if (response.ok) {
             window.location.reload();
+            setUser("");
             return response.json();
         }
         throw new Error("Network response was not ok on user sign out.");
     })
 }
 
+function getUserButton(userContext: { user: string; setUser: (user: string) => void }): JSX.Element {
+    if (userContext.user === "") {
+        return (
+            <Link to='/users'>
+                <Button>Log in</Button>
+            </Link>
+        );
+    } else {
+        return <Button onClick={(): void => handleLogOut(userContext.setUser)}>Log out {userContext.user}</Button>
+    }
+}
+
 function MasterNavbar(): JSX.Element {
+    const userContext = useContext(UserContext);
     const { t } = useTranslation();
 
     return (
@@ -37,10 +52,8 @@ function MasterNavbar(): JSX.Element {
                 <Nav.Link href="#about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
             <Form inline>
-                <Link to='/users'>
-                    <Button className="mr-1">Log in</Button>
-                </Link>
-                <Button onClick={handleLogOut}>Log out</Button>
+                {getUserButton(userContext)}
+                <Button onClick={(): void => handleLogOut(userContext.setUser)}>Log out</Button>
             </Form>
         </Navbar >
     );

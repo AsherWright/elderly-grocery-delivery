@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Card } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { UserContext } from '../../UserContext';
 
-function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, password: string, setRedirect: (val: boolean) => void): void {
+interface SignInUserResponse {
+    id: string;
+    email: string;
+}
+
+function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, password: string, setRedirect: (val: boolean) => void, setUser: (val: string) => void): void {
     event.preventDefault()
 
     const usersUrl = "/users/sign_in";
@@ -21,10 +27,13 @@ function submitForm(event: React.FormEvent<HTMLFormElement>, email: string, pass
 
     fetch(usersUrl, params).then((response: Response) => {
         if (response.ok) {
-            setRedirect(true)
-            return response.json();
+            return response.json() as Promise<SignInUserResponse>;
         }
         throw new Error("Network response was not ok on user sign in.");
+    }).then((response) => {
+        console.log(response)
+        setUser(response.email)
+        setRedirect(true)
     })
 }
 
@@ -37,6 +46,7 @@ function renderRedirect(redirect: boolean): JSX.Element | null {
 }
 
 function SignInCard(): JSX.Element {
+    const userContext = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -50,7 +60,7 @@ function SignInCard(): JSX.Element {
                     <Card.Title style={{ textAlign: "center" }}>Sign In</Card.Title>
                     <Card.Text className="text-muted" style={{ textAlign: "center" }}>Welcome back! Enter your information below to sign into your account.</Card.Text>
                     <hr />
-                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, email, password, setRedirect)}>
+                    <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, email, password, setRedirect, userContext.setUser)}>
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control
