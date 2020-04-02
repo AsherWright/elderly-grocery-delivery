@@ -20,7 +20,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def invalid_login_attempt
     warden.custom_failure!
-    render json: {error: 'invalid login attempt'}, status: :unprocessable_entity
+    render json: {errors: {invalid_login: true}}, status: :unprocessable_entity
   end
 
   def user_params
