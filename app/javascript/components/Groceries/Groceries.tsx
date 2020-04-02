@@ -135,7 +135,6 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                             name: item.name,
                             price: item.price,
                             quantity: item.quantity,
-                            user_id: this.getUserId()
                         }
                     })
                 };
@@ -298,11 +297,6 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
 
     getMaxQuantity(): number {
         return 5;
-    }
-
-    getUserId(): string {
-        // This will be implemented once we add users
-        return "temp_id";
     }
 }
 

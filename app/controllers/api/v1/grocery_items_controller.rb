@@ -6,7 +6,8 @@ class Api::V1::GroceryItemsController < ApplicationController
 
   def create
     grocery_items = if multiple_items?
-      GroceryItem.create!(grocery_items_params[:items])
+      params_with_id = grocery_items_params[:items].map { |item_params| item_params.merge(user_id: current_user.id) }
+      GroceryItem.create!(params_with_id)
     else
       GroceryItem.create!(grocery_item_params)
     end
@@ -31,10 +32,10 @@ class Api::V1::GroceryItemsController < ApplicationController
   end
 
   def grocery_items_params
-    params.permit(:items => [:name, :price, :user_id])
+    params.permit(:items => [:name, :price])
   end
 
   def grocery_item_params
-    params.require([:name, :price, :user_id])
+    params.require([:name, :price]).merge(user_id: current_user.id)
   end
 end
