@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
+import { useTranslation } from 'react-i18next';
 
 interface User {
     email: string;
@@ -28,11 +29,12 @@ function submitForm(event: React.FormEvent<HTMLFormElement>, user: User, setRedi
 
     fetch(usersUrl, params).then((response: Response) => {
         if (response.ok) {
-            setUser(response.name)
-            setRedirect(true)
-            return response.json();
+            return response.json() as Promise<{ name: string }>;
         }
         throw new Error("Network response was not ok on user create.");
+    }).then((response): void => {
+        setUser(response.name)
+        setRedirect(true)
     })
 }
 
@@ -45,6 +47,7 @@ function renderRedirect(redirect: boolean): JSX.Element | null {
 }
 
 function SignUpCard(): JSX.Element {
+    const { t } = useTranslation();
     const userContext = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -57,28 +60,28 @@ function SignUpCard(): JSX.Element {
             {renderRedirect(redirect)}
             <Card>
                 <Card.Body>
-                    <Card.Title style={{ textAlign: "center" }}>Welcome to GoGetGroceries</Card.Title>
-                    <Card.Text className="text-muted" style={{ textAlign: "center" }}>To get started, you'll need to create an account by filling out the form below.</Card.Text>
+                    <Card.Title style={{ textAlign: "center" }}>{t('sign_up_card.welcome')}</Card.Title>
+                    <Card.Text className="text-muted" style={{ textAlign: "center" }}>{t('sign_up_card.getting_started')}</Card.Text>
                     <hr />
                     <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, { email, password, name }, setRedirect, userContext.setUser)}>
                         <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>{t('shared.email')}</Form.Label>
                             <Form.Control
                                 value={email}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setEmail(event.target.value)}
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>{t('shared.password')}</Form.Label>
                             <Form.Control
                                 value={password}
                                 type="password"
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setPassword(event.target.value)}
                             />
-                            <Form.Text className="text-muted">At least 6 characters long</Form.Text>
+                            <Form.Text className="text-muted">{t('sign_up_card.password_criteria')}</Form.Text>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Label>{t('sign_up_card.confirm_password')}</Form.Label>
                             <Form.Control
                                 value={confirmedPassword}
                                 type="password"
@@ -86,7 +89,7 @@ function SignUpCard(): JSX.Element {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>{t('sign_up_card.name')}</Form.Label>
                             <Form.Control
                                 value={name}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setName(event.target.value)}
@@ -94,8 +97,8 @@ function SignUpCard(): JSX.Element {
                         </Form.Group>
                         <hr />
                         <Button variant="primary" type="submit" block>
-                            Create Account
-                    </Button>
+                            {t('sign_up_card.create_account')}
+                        </Button>
                     </Form>
                 </Card.Body>
             </Card>

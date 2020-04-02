@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { Button, Form, Navbar, Nav } from 'react-bootstrap';
+import { TFunction } from 'i18next';
 import { UserContext } from '../UserContext';
 
 function handleLogOut(setUser: (user: string) => void): void {
@@ -26,15 +27,15 @@ function handleLogOut(setUser: (user: string) => void): void {
     })
 }
 
-function getUserButton(userContext: { user: string; setUser: (user: string) => void }): JSX.Element {
+function getUserButton(userContext: { user: string; setUser: (user: string) => void }, t: TFunction): JSX.Element {
     if (userContext.user === "") {
         return (
             <Link to='/users'>
-                <Button>Log in</Button>
+                <Button>{t('shared.log_in')}</Button>
             </Link>
         );
     } else {
-        return <Button onClick={(): void => handleLogOut(userContext.setUser)}>Log out {userContext.user}</Button>
+        return <Button onClick={(): void => handleLogOut(userContext.setUser)}>{t('shared.log_out')} {userContext.user}</Button>
     }
 }
 
@@ -52,7 +53,7 @@ function MasterNavbar(): JSX.Element {
                 <Nav.Link href="#about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
             <Form inline>
-                {getUserButton(userContext)}
+                {getUserButton(userContext, t)}
             </Form>
         </Navbar >
     );

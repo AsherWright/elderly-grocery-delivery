@@ -71,6 +71,10 @@
             "placeholder_delivery_notes": "FRENCH e.g. Last house on the right",
             "submit": "FRENCH Submit",
             "thank_you": "Merci pour ORDERING"
+        },
+        "shared": {
+            "log_in": "S'identifier",
+            "log_out": "Se déconnecter"
         }
     }
 }

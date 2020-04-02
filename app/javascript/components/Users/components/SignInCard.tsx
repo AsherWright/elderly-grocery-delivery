@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Button, Form, Card } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
+import { useTranslation } from 'react-i18next';
 
 interface SignInUserResponse {
     id: string;
@@ -47,6 +48,7 @@ function renderRedirect(redirect: boolean): JSX.Element | null {
 }
 
 function SignInCard(): JSX.Element {
+    const { t } = useTranslation();
     const userContext = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -57,19 +59,19 @@ function SignInCard(): JSX.Element {
             {renderRedirect(redirect)}
             <Card>
                 <Card.Body>
-                    <Card.Title style={{ textAlign: "center" }}>Sign In</Card.Title>
-                    <Card.Text className="text-muted" style={{ textAlign: "center" }}>Welcome back! Enter your information below to sign into your account.</Card.Text>
+                    <Card.Title style={{ textAlign: "center" }}>{t("sign_in_card.sign_in")}</Card.Title>
+                    <Card.Text className="text-muted" style={{ textAlign: "center" }}>{t("sign_in_card.welcome_back")}</Card.Text>
                     <hr />
                     <Form onSubmit={(event: React.FormEvent<HTMLFormElement>): void => submitForm(event, email, password, setRedirect, userContext.setUser)}>
                         <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>{t("shared.email")}</Form.Label>
                             <Form.Control
                                 value={email}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setEmail(event.target.value)}
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>{t("shared.password")}</Form.Label>
                             <Form.Control
                                 value={password}
                                 type="password"
@@ -78,8 +80,8 @@ function SignInCard(): JSX.Element {
                         </Form.Group>
                         <hr />
                         <Button variant="primary" type="submit" block>
-                            Log in
-                    </Button>
+                            {t("shared.log_in")}
+                        </Button>
                     </Form>
                 </Card.Body>
             </Card>

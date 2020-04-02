@@ -85,6 +85,30 @@
             "cancelled_body": "It looks like your order has been cancelled. We hope we can help you next time!",
             "default_heading": "Something has gone wrong.",
             "default_body": "Sorry, we're having some issues. Try re-doing your order."
+        },
+        "users": {
+            "no_account": "Don't have an account?",
+            "create_one": "Create one here.",
+            "account_already": "Already have an account?",
+            "sign_in_here": "Sign in here."
+        },
+        "sign_in_card": {
+            "welcome_back": "Welcome back! Enter your information below to sign into your account.",
+            "sign_in": "Sign in"
+        },
+        "sign_up_card": {
+            "welcome": "Welcome to GoGetGroceries",
+            "getting_started": "To get started, you'll need to create an account by filling out the form below.",
+            "password_criteria": "At least 6 characters long",
+            "confirm_password": "Confirm Password",
+            "name": "Name",
+            "create_account": "Create Account"
+        },
+        "shared": {
+            "log_in": "Log in",
+            "log_out": "Log out",
+            "password": "Password",
+            "email": "Email"
         }
     }
 }
