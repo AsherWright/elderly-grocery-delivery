@@ -12,7 +12,6 @@ interface HomeCardProps {
 
 function HomeCard(props: HomeCardProps): JSX.Element {
     const { buttonLinkPath, buttonText, cardText, disabled, header } = props;
-
     return (
         <Card>
             <Card.Header as="h5">{header}</Card.Header>

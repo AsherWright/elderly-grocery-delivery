@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import {DeliveryLine} from "./components"
+import { ListGroup, Col, Row } from 'react-bootstrap';
 
 enum OrderStatus {
     Unconfirmed,
@@ -14,12 +16,16 @@ interface Order {
     id: string;
     status: OrderStatus;
     deliveryNotes: string;
+    name: string;
+    postalCode: string;
 }
 
 interface OrderResponse {
     id: string;
     status: string;
     delivery_notes: string;
+    user: { name: string };
+    destination: { postal_code: string };
 }
 
 function convertToOrderStatus(status: string): OrderStatus {
@@ -45,7 +51,7 @@ function Deliveries(): JSX.Element {
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        const url = "/api/v1/orders/index/?status=confirmed";
+        const url = "/api/v1/orders/index/";
 
         fetch(url)
             .then((response: Response) => {
@@ -61,7 +67,9 @@ function Deliveries(): JSX.Element {
                         return {
                             id: responseOrder.id,
                             status: convertToOrderStatus(responseOrder.status),
-                            deliveryNotes: responseOrder.delivery_notes
+                            deliveryNotes: responseOrder.delivery_notes,
+                            name: responseOrder.user.name,
+                            postalCode: responseOrder.destination.postal_code
                         }
                     })
                 )
@@ -70,13 +78,30 @@ function Deliveries(): JSX.Element {
 
     return (
         <>
-            {orders.map((order) => {
-                return (
-                    <>
-                        <div>id = {order.id}, status = {order.status}, delivery notes = {order.deliveryNotes}</div>
-                    </>
-                );
-            })}
+            <ListGroup variant="flush" className="ml-3 mr-3 mt-4">
+                <h3> Orders </h3>
+                <ListGroup.Item>
+                    <Row style={{fontWeight: "bold"}}> 
+                        <Col xs={1}>ID</Col>
+                        <Col>Status</Col>
+                        <Col>Name</Col>
+                        <Col>Amount</Col>
+                        <Col>Postal Code</Col>
+                    </Row>
+                </ListGroup.Item>
+                {orders.map((order) => {
+                    return (
+                        <ListGroup.Item>
+                            <DeliveryLine
+                                id={order.id}
+                                name={order.name}
+                                status={order.status}
+                                amount={92}
+                                postalCode={order.postalCode} />
+                        </ListGroup.Item>
+                    );
+                })}
+            </ListGroup>
         </>
     );
 }

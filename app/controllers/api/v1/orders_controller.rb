@@ -3,10 +3,10 @@ class Api::V1::OrdersController < ApplicationController
       orders = if params[:status]
         Order.where(status: params[:status])
       else
-        Order.all
+        Order.includes(order_line_items: :grocery_item).all
       end
 
-      render json: orders
+      render json: orders, include: [{order_line_items: { include: :grocery_item }}, :user, :destination]
     end
 
     def create
