@@ -45,12 +45,12 @@ function MasterNavbar(): JSX.Element {
 
     return (
         <Navbar bg="light" variant="light">
-            <Navbar.Brand href="#home">GoGetGroceries</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">GoGetGroceries</Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link href="#home">{t('master_navbar.home')}</Nav.Link>
-                <Nav.Link href="#order">{t('master_navbar.order')}</Nav.Link>
-                <Nav.Link href="#deliver">{t('master_navbar.deliver')}</Nav.Link>
-                <Nav.Link href="#about">{t('master_navbar.about')}</Nav.Link>
+                <Nav.Link as={Link} to="/">{t('master_navbar.home')}</Nav.Link>
+                <Nav.Link as={Link} to="/orders">{t('master_navbar.order')}</Nav.Link>
+                <Nav.Link as={Link} to="/deliver">{t('master_navbar.deliver')}</Nav.Link>
+                <Nav.Link as={Link} to="/about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
             <Form inline>
                 {getUserButton(userContext, t)}
