@@ -63,8 +63,4 @@ Rails.application.configure do
 
   # Rails does a lot of checkups on Yarn, a bit too much. Best is to disable this.
   config.webpacker.check_yarn_integrity = false
-
-  # Remove protection on which hosts can access the app
-  # TODO: remove once we start deploying production
-  config.hosts = /ec2[\d-]*\.compute-\d+\.amazonaws\.com/
 end
