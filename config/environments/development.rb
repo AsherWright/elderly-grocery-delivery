@@ -65,5 +65,6 @@ Rails.application.configure do
   config.webpacker.check_yarn_integrity = false
 
   # Remove protection on which hosts can access the app
-  config.hosts = nil
+  # TODO: remove once we start deploying production
+  config.hosts = /ec2[\d-]*\.compute-\d+\.amazonaws\.com/
 end
