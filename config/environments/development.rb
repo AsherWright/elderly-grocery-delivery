@@ -60,4 +60,9 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Rails does a lot of checkups on Yarn, a bit too much. Best is to disable this.
+  config.webpacker.check_yarn_integrity = false
+
+  config.hosts = nil
 end
