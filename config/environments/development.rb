@@ -64,6 +64,5 @@ Rails.application.configure do
   # Rails does a lot of checkups on Yarn, a bit too much. Best is to disable this.
   config.webpacker.check_yarn_integrity = false
 
-  # Remove protection on which hosts can access the app
   config.hosts = nil
 end
