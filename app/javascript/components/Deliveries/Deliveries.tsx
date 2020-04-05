@@ -1,45 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
-enum OrderStatus {
-    Unconfirmed,
-    Confirmed,
-    Assigned,
-    BeingDelivered,
-    Completed,
-    Cancelled,
-    Unknown
-}
-
-interface Order {
-    id: string;
-    status: OrderStatus;
-    deliveryNotes: string;
-}
-
-interface OrderResponse {
-    id: string;
-    status: string;
-    delivery_notes: string;
-}
-
-function convertToOrderStatus(status: string): OrderStatus {
-    switch (status) {
-        case "unconfirmed":
-            return OrderStatus.Unconfirmed;
-        case "confirmed":
-            return OrderStatus.Confirmed;
-        case "assigned":
-            return OrderStatus.Assigned;
-        case "being_delivered":
-            return OrderStatus.BeingDelivered;
-        case "completed":
-            return OrderStatus.Completed;
-        case "cancelled":
-            return OrderStatus.Cancelled;
-        default:
-            return OrderStatus.Unknown;
-    }
-}
+import { Order } from '../types';
+import { FetchOrderResponse } from '../api-types';
+import { convertToOrderStatus } from '../api-helper';
 
 function Deliveries(): JSX.Element {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -50,7 +12,7 @@ function Deliveries(): JSX.Element {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<OrderResponse[]>;
+                    return response.json() as Promise<FetchOrderResponse[]>;
                 }
                 throw new Error("Network response was not ok.");
             })
@@ -61,7 +23,9 @@ function Deliveries(): JSX.Element {
                         return {
                             id: responseOrder.id,
                             status: convertToOrderStatus(responseOrder.status),
-                            deliveryNotes: responseOrder.delivery_notes
+                            deliveryNotes: responseOrder.delivery_notes,
+                            orderLineItems: [],
+                            createdAt: ""
                         }
                     })
                 )

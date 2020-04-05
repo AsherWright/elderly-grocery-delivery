@@ -1,31 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'react-bootstrap'
-import { OrderItemList } from '.'
 import { useTranslation } from 'react-i18next';
-
-
-interface OrderLineItem {
-    id: string;
-    quantity: number;
-    groceryItem: GroceryItem;
-}
-
-interface GroceryItem {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-}
-
-enum OrderStatus {
-    Unconfirmed,
-    Confirmed,
-    Assigned,
-    BeingDelivered,
-    Completed,
-    Cancelled,
-    Unknown
-}
+import { OrderItemList } from '.'
+import { OrderStatus, OrderLineItem } from '../../types';
 
 interface ConfirmedOrderPageProps {
     orderLineItems: OrderLineItem[];

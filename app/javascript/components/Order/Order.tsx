@@ -2,26 +2,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { UnconfirmedOrderPage, ConfirmedOrderPage } from './components'
 import React from 'react';
-
-interface OrderLineItem {
-    id: string;
-    quantity: number;
-    groceryItem: GroceryItem;
-}
-
-interface GroceryItem {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-}
-
-interface Order {
-    id: string;
-    status: OrderStatus;
-    createdAt: string;
-    orderLineItems: OrderLineItem[];
-}
+import { OrderStatus, Order, OrderLineItem } from '../types';
+import { FetchOrderResponse } from '../api-types';
 
 interface OrderState {
     order: Order;
@@ -31,38 +13,8 @@ interface RouteParams {
     id: string;
 }
 
-interface GroceryItemResponse {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-}
-
-interface OrderLineItemResponse {
-    id: string;
-    quantity: number;
-    grocery_item: GroceryItemResponse;
-}
-
-interface FetchOrderResponse {
-    id: string;
-    created_at: string;
-    status: string;
-    order_line_items: OrderLineItemResponse[];
-}
-
 interface OrderProps {
     items: OrderLineItem[];
-}
-
-enum OrderStatus {
-    Unconfirmed,
-    Confirmed,
-    Assigned,
-    BeingDelivered,
-    Completed,
-    Cancelled,
-    Unknown
 }
 
 type OrderPageProps = OrderProps & RouteComponentProps<RouteParams> & WithTranslation
@@ -71,7 +23,15 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
     constructor(props: OrderPageProps) {
         super(props);
 
-        this.state = { order: { status: OrderStatus.Unknown, id: "", createdAt: "", orderLineItems: [] } };
+        this.state = {
+            order: {
+                status: OrderStatus.Unknown,
+                id: "",
+                createdAt: "",
+                orderLineItems: [],
+                deliveryNotes: "",
+            }
+        };
         this.confirmOrder = this.confirmOrder.bind(this);
     }
 
@@ -91,6 +51,7 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                         status: this.convertToOrderStatus(response.status),
                         createdAt: response.created_at,
                         id: response.id,
+                        deliveryNotes: "",
                         orderLineItems: response.order_line_items.map((item) => {
                             return {
                                 groceryItem: item.grocery_item,

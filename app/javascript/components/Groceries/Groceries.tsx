@@ -3,22 +3,8 @@ import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Container, Col, Row, Form } from 'react-bootstrap';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
-
-interface FetchGroceryItemsResponseElement {
-    id: string;
-    name: string;
-    price: number;
-}
-
-interface CreateOrderResponse {
-    id: string;
-}
-
-interface GroceryItem {
-    id: string;
-    name: string;
-    price: number;
-}
+import { GroceryItem } from '../types';
+import { FetchGroceryItemsResponse, FetchOrderResponse } from '../api-types';
 
 interface GroceryLineItem extends GroceryItem {
     quantity: number;
@@ -63,7 +49,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
+                    return response.json() as Promise<FetchGroceryItemsResponse[]>;
                 } else if (response.status === 401) {
                     this.setState({ unauthorized: true })
                 }
@@ -71,7 +57,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
             })
             .then(response => this.setState(
                 {
-                    groceryItems: response.map(groceryListItem => ({ ...groceryListItem, quantity: 1 })),
+                    groceryItems: response.map(groceryListItem => ({ ...groceryListItem, quantity: 1, image: "" })),
                     dataLoaded: true
                 }
             ))
@@ -124,11 +110,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         fetch(ordersUrl, fetchParams(JSON.stringify(orderBody)))
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<CreateOrderResponse>;
+                    return response.json() as Promise<FetchOrderResponse>;
                 }
                 throw new Error("Network response was not ok on order create.");
             })
-            .then((createOrderResponse: CreateOrderResponse) => {
+            .then((createOrderResponse: FetchOrderResponse) => {
                 const groceriesBody = {
                     items: cartLineItems.filter(x => x.new).map((item) => {
                         return {
@@ -142,11 +128,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 fetch(groceriesUrl, fetchParams(JSON.stringify(groceriesBody)))
                     .then((response: Response) => {
                         if (response.ok) {
-                            return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
+                            return response.json() as Promise<FetchGroceryItemsResponse[]>;
                         }
                         throw new Error("Network response was not ok on groceries create.");
                     })
-                    .then((createGroceriesResponse: FetchGroceryItemsResponseElement[]) => {
+                    .then((createGroceriesResponse: FetchGroceryItemsResponse[]) => {
                         const lineItemsBody = {
                             items: cartLineItems.map((item) => {
                                 return {
@@ -279,7 +265,8 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
             price: Number(itemPrice),
             quantity: 1,
             id: itemName,
-            new: true
+            new: true,
+            image: ""
         }
 
         const itemAlreadyExists: boolean = this.state.cartLineItems.some((item) => item.name === itemName)
