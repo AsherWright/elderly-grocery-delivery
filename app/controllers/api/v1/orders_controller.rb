@@ -1,12 +1,8 @@
 class Api::V1::OrdersController < ApplicationController
     def index
-      orders = if params[:status]
-        Order.where(status: params[:status])
-      else
-        Order.all
-      end
+      orders = Order.includes({order_line_items: :grocery_item}, :user, :destination).where(user_id: current_user.id)
 
-      render json: orders
+      render json: orders, include: [{order_line_items: { include: :grocery_item }}, :user, :destination]
     end
 
     def create

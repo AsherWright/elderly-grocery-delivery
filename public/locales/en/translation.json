@@ -36,7 +36,7 @@
         },
         "master_navbar": {
             "home": "Home",
-            "order": "Order",
+            "orders": "Orders",
             "deliver": "Deliver",
             "about": "About"
         },

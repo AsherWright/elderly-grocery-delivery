@@ -5,3 +5,4 @@ export { MasterNavbar } from './MasterNavbar';
 export { Deliveries } from './Deliveries';
 export { Users } from './Users';
 export { LanguageSelector } from './LanguageSelector';
+export { OrdersIndex } from './OrdersIndex';
