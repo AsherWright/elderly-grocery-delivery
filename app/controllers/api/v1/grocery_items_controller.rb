@@ -1,6 +1,7 @@
 class Api::V1::GroceryItemsController < ApplicationController
   def index
-    grocery_items = GroceryItem.all.order(created_at: :desc)
+    grocery_items = GroceryItem.where(user_id: [nil, current_user.id])
+
     render json: grocery_items
   end
 
