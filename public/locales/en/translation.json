@@ -4,12 +4,12 @@
             "make_order": "Make an order",
             "order_groceries": "Order groceries",
             "order_explanation": "Here you can choose items you want to have delivered, set the price that you're willing to pay, and order!",
-            "view_order": "View order",
-            "view_order_explanation": "View the status of an existing order.",
+            "view_order": "View orders",
+            "view_order_explanation": "Take a look at all of your orders - completed, cancelled, or active!",
             "deliver": "Sign up to deliver",
             "deliver_explanation": "Sign up as a volunteer to help deliver items to people in need!",
             "deliver_header": "Deliver",
-            "view_order_header": "View Order",
+            "view_order_header": "See your orders",
             "order_header": "Create Order"
         },
         "basket": {
@@ -36,7 +36,7 @@
         },
         "master_navbar": {
             "home": "Home",
-            "order": "Order",
+            "orders": "Orders",
             "deliver": "Deliver",
             "about": "About"
         },
@@ -44,6 +44,14 @@
             "order_summary": "Order Summary",
             "delivery_details": "Delivery Details",
             "thank_you": "Thank you for making an order."
+        },
+        "order_index": {
+            "your_orders": "Your Orders",
+            "create_order": "Create order",
+            "date_created": "Date Created",
+            "status": "Status",
+            "grocery_items": "Grocery Items",
+            "notes": "Notes"
         },
         "order_item_list": {
             "item": "Item Name",
@@ -85,6 +93,15 @@
             "cancelled_body": "It looks like your order has been cancelled. We hope we can help you next time!",
             "default_heading": "Something has gone wrong.",
             "default_body": "Sorry, we're having some issues. Try re-doing your order."
+        },
+        "order_status_badge": {
+            "draft": "Draft",
+            "confirmed": "Confirmed",
+            "assigned": "Assigned",
+            "being_delivered": "Being delivered",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "unknown": "Unknown"
         },
         "users": {
             "no_account": "Don't have an account?",

@@ -36,10 +36,10 @@ function getOrderGroceriesCard(t: TFunction): JSX.Element {
 function getViewOrderCard(t: TFunction): JSX.Element {
     return getHomeCard(
         t('home.view_order'),
-        "/",
+        "/orders",
         t('home.view_order_explanation'),
         t('home.view_order_header'),
-        true
+        false
     );
 }
 

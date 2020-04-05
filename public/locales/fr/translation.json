@@ -5,7 +5,7 @@
             "order_groceries": "Faire l'épicerie",
             "order_explanation": "Ici, vous pouvez choisir les articles que vous souhaitez faire livrer, définir le prix que vous êtes prêt à payer et commander!",
             "view_order": "Voir l'ordre",
-            "view_order_explanation": "Affichez le statut d'une commande existante.",
+            "view_order_explanation": "Jetez un œil à toutes vos commandes - terminées, annulées, ou actives!",
             "deliver": "Inscrivez-vous pour livrer",
             "deliver_explanation": "Inscrivez-vous en tant que bénévole pour aider à livrer des articles aux personnes dans le besoin!",
             "deliver_header": "Livrer",
@@ -36,41 +36,15 @@
         },
         "master_navbar": {
             "home": "Accueil",
-            "order": "Ordre",
+            "orders": "Ordres",
             "deliver": "Livrer",
             "about": "À propos de nous"
-        },
-        "order": {
-            "order_summary": "FRENCH ORDER SUMMARY",
-            "delivery_details": "FRENCH DELIVERY DETAILS"
         },
         "order_item_list": {
             "item": "Article",
             "quantity": "Quantité",
             "price": "Prix",
             "total_price": "Prix Total:"
-        },
-        "order_delivery_form": {
-            "first_name": "FRENCH First Name",
-            "placeholder_first_name": "FRENCH e.g. Jane Appleseed",
-            "phone_number": "FRENCH Phone Number",
-            "placeholder_phone_number": "FRENCH e.g. 514 555 1234",
-            "address": "FRENCH Address",
-            "placeholder_address": "FRENCH e.g. 1 Cherry Lane",
-            "postal_code": "FRENCH Postal Code",
-            "placeholder_postal_code": "FRENCH e.g. G1A 1A1",
-            "city": "FRENCH City",
-            "placeholder_city": "FRENCH e.g. Toronto",
-            "province": "FRENCH Province",
-            "placeholder_province": "FRENCH e.g. Quebec",
-            "country": "FRENCH Country",
-            "placeholder_country": "FRENCH e.g. Canada",
-            "email": "FRENCH Email",
-            "placeholder_email": "FRENCH e.g. jane@appleseed.com",
-            "delivery_notes": "FRENCH Notes for delivery-person",
-            "placeholder_delivery_notes": "FRENCH e.g. Last house on the right",
-            "submit": "FRENCH Submit",
-            "thank_you": "Merci pour ORDERING"
         },
         "shared": {
             "log_in": "S'identifier",

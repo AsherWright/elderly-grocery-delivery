@@ -1,20 +1,8 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { OrderItemList, OrderDeliveryForm } from './'
-
-interface OrderLineItem {
-    id: string;
-    quantity: number;
-    groceryItem: GroceryItem;
-}
-
-interface GroceryItem {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-}
+import { OrderItemList, OrderDeliveryForm } from './';
+import { OrderLineItem } from '../../types';
 
 interface UnconfirmedOrderPageProps {
     orderLineItems: OrderLineItem[];

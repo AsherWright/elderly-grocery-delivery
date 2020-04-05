@@ -3,22 +3,8 @@ import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Container, Col, Row, Form } from 'react-bootstrap';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
-
-interface FetchGroceryItemsResponseElement {
-    id: string;
-    name: string;
-    price: number;
-}
-
-interface CreateOrderResponse {
-    id: string;
-}
-
-interface GroceryItem {
-    id: string;
-    name: string;
-    price: number;
-}
+import { GroceryItem } from '../types';
+import { ApiGroceryItem, ApiOrder } from '../api-types';
 
 interface GroceryLineItem extends GroceryItem {
     quantity: number;
@@ -60,22 +46,20 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
 
     componentDidMount(): void {
         const url = "/api/v1/grocery_items/index";
-        fetch(url)
-            .then((response: Response) => {
-                if (response.ok) {
-                    return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
-                } else if (response.status === 401) {
-                    this.setState({ unauthorized: true })
-                }
-                throw new Error("Network response was not ok.");
-            })
-            .then(response => this.setState(
-                {
-                    groceryItems: response.map(groceryListItem => ({ ...groceryListItem, quantity: 1 })),
-                    dataLoaded: true
-                }
-            ))
-            .catch();
+
+        fetch(url).then((response: Response) => {
+            if (response.ok) {
+                return response.json() as Promise<ApiGroceryItem[]>;
+            } else if (response.status === 401) {
+                this.setState({ unauthorized: true })
+            }
+            throw new Error("Network response was not ok.");
+        }).then(response => this.setState(
+            {
+                groceryItems: response.map(groceryListItem => ({ ...groceryListItem, quantity: 1, image: "" })),
+                dataLoaded: true
+            }
+        ))
     }
 
     handleSearch(text: string): void {
@@ -121,53 +105,47 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
             status: "unconfirmed"
         }
 
-        fetch(ordersUrl, fetchParams(JSON.stringify(orderBody)))
-            .then((response: Response) => {
+        fetch(ordersUrl, fetchParams(JSON.stringify(orderBody))).then((response: Response) => {
+            if (response.ok) {
+                return response.json() as Promise<ApiOrder>;
+            }
+            throw new Error("Network response was not ok on order create.");
+        }).then((createOrderResponse: ApiOrder) => {
+            const groceriesBody = {
+                items: cartLineItems.filter(x => x.new).map((item) => {
+                    return {
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                    }
+                })
+            };
+
+            fetch(groceriesUrl, fetchParams(JSON.stringify(groceriesBody))).then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<CreateOrderResponse>;
+                    return response.json() as Promise<ApiGroceryItem[]>;
                 }
-                throw new Error("Network response was not ok on order create.");
-            })
-            .then((createOrderResponse: CreateOrderResponse) => {
-                const groceriesBody = {
-                    items: cartLineItems.filter(x => x.new).map((item) => {
+                throw new Error("Network response was not ok on groceries create.");
+            }).then((createGroceriesResponse: ApiGroceryItem[]) => {
+                const lineItemsBody = {
+                    items: cartLineItems.map((item) => {
                         return {
-                            name: item.name,
-                            price: item.price,
                             quantity: item.quantity,
+                            order_id: createOrderResponse.id,
+                            grocery_item_id: item.new ? createGroceriesResponse.find((x) => x.name == item.name)?.id : item.id
                         }
                     })
                 };
 
-                fetch(groceriesUrl, fetchParams(JSON.stringify(groceriesBody)))
-                    .then((response: Response) => {
-                        if (response.ok) {
-                            return response.json() as Promise<FetchGroceryItemsResponseElement[]>;
-                        }
-                        throw new Error("Network response was not ok on groceries create.");
-                    })
-                    .then((createGroceriesResponse: FetchGroceryItemsResponseElement[]) => {
-                        const lineItemsBody = {
-                            items: cartLineItems.map((item) => {
-                                return {
-                                    quantity: item.quantity,
-                                    order_id: createOrderResponse.id,
-                                    grocery_item_id: item.new ? createGroceriesResponse.find((x) => x.name == item.name)?.id : item.id
-                                }
-                            })
-                        };
-
-                        fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody)))
-                            .then((response: Response) => {
-                                if (response.ok) {
-                                    this.props.history.push('/orders/' + createOrderResponse.id)
-                                    return;
-                                }
-                                throw new Error("Network response was not ok on line items create.")
-                            })
-                    })
+                fetch(lineItemsUrl, fetchParams(JSON.stringify(lineItemsBody))).then((response: Response) => {
+                    if (response.ok) {
+                        this.props.history.push('/orders/' + createOrderResponse.id)
+                        return;
+                    }
+                    throw new Error("Network response was not ok on line items create.")
+                })
             })
-            .catch((error: Error) => console.log(error.message));
+        }).catch((error: Error) => console.log(error.message));
     }
 
     render(): JSX.Element {
@@ -279,7 +257,8 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
             price: Number(itemPrice),
             quantity: 1,
             id: itemName,
-            new: true
+            new: true,
+            image: ""
         }
 
         const itemAlreadyExists: boolean = this.state.cartLineItems.some((item) => item.name === itemName)

@@ -35,7 +35,7 @@ function getUserButton(userContext: { user: string; setUser: (user: string) => v
             </Link>
         );
     } else {
-        return <Button onClick={(): void => handleLogOut(userContext.setUser)}>{t('shared.log_out')} {userContext.user}</Button>
+        return <Button variant="danger" onClick={(): void => handleLogOut(userContext.setUser)}>{t('shared.log_out')} {userContext.user}</Button>
     }
 }
 
@@ -48,7 +48,7 @@ function MasterNavbar(): JSX.Element {
             <Navbar.Brand as={Link} to="/">GoGetGroceries</Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link as={Link} to="/">{t('master_navbar.home')}</Nav.Link>
-                <Nav.Link as={Link} to="/orders">{t('master_navbar.order')}</Nav.Link>
+                <Nav.Link as={Link} to="/orders">{t('master_navbar.orders')}</Nav.Link>
                 <Nav.Link as={Link} to="/deliver">{t('master_navbar.deliver')}</Nav.Link>
                 <Nav.Link as={Link} to="/about">{t('master_navbar.about')}</Nav.Link>
             </Nav>
