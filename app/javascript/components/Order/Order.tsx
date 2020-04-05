@@ -4,7 +4,7 @@ import { UnconfirmedOrderPage, ConfirmedOrderPage } from './components'
 import React from 'react';
 import { OrderStatus, Order, OrderLineItem } from '../types';
 import { ApiOrder } from '../api-types';
-import { convertToAddress, convertToOrderStatus } from '../api-helper';
+import { convertToOrder } from '../api-helper';
 
 interface OrderState {
     order: Order;
@@ -38,34 +38,16 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
     componentDidMount(): void {
         const url = "/api/v1/orders/show/" + this.props.match.params.id;
 
-        fetch(url)
-            .then((response: Response) => {
-                if (response.ok) {
-                    return response.json() as Promise<ApiOrder>;
-                }
-                throw new Error("Network response was not ok.");
-            })
-            .then(response => this.setState(
-                {
-                    order: {
-                        status: convertToOrderStatus(response.status),
-                        createdAt: new Date(response.created_at),
-                        id: response.id,
-                        deliveryNotes: "",
-                        orderLineItems: response.order_line_items.map((item) => {
-                            return {
-                                groceryItem: item.grocery_item,
-                                id: item.id,
-                                quantity: item.quantity
-                            }
-                        }),
-                        destination: convertToAddress(response.destination),
-                        email: response.email,
-                        phoneNumber: response.phone_number
-                    }
-                }
-            ))
-            .catch(() => this.props.history.push("/"));
+        fetch(url).then((response: Response) => {
+            if (response.ok) {
+                return response.json() as Promise<ApiOrder>;
+            }
+            throw new Error("Network response was not ok.");
+        }).then(response => {
+            this.setState(
+                { order: convertToOrder(response) }
+            )
+        }).catch(() => this.props.history.push("/"));
     }
 
     render(): JSX.Element {

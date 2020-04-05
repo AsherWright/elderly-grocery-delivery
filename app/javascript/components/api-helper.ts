@@ -1,5 +1,5 @@
-import { Address, OrderLineItem, OrderStatus } from './types';
-import { ApiAddress, ApiOrderLineItem } from './api-types';
+import { Address, Order, OrderLineItem, OrderStatus } from './types';
+import { ApiAddress, ApiOrder, ApiOrderLineItem } from './api-types';
 
 export function convertToOrderStatus(status: string): OrderStatus {
     switch (status) {
@@ -37,5 +37,18 @@ export function convertToAddress(response: ApiAddress): Address {
         postalCode: response.postal_code,
         province: response.province,
         unitNumber: response.unit_number || ""
+    }
+}
+
+export function convertToOrder(response: ApiOrder): Order {
+    return {
+        id: response.id,
+        status: convertToOrderStatus(response.status),
+        deliveryNotes: response.delivery_notes,
+        createdAt: new Date(response.created_at),
+        orderLineItems: response.order_line_items.map(convertToOrderLineItem),
+        destination: response.destination && convertToAddress(response.destination),
+        email: response.email,
+        phoneNumber: response.phone_number
     }
 }

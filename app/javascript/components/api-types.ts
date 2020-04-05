@@ -35,7 +35,7 @@ interface ApiOrder {
     phone_number: string;
     email: string;
     order_line_items: ApiOrderLineItem[];
-    destination: ApiAddress;
+    destination: ApiAddress | null;
 }
 
 export {

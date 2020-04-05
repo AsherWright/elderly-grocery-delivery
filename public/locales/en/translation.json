@@ -45,6 +45,14 @@
             "delivery_details": "Delivery Details",
             "thank_you": "Thank you for making an order."
         },
+        "order_index": {
+            "your_orders": "Your Orders",
+            "create_order": "Create order",
+            "date_created": "Date Created",
+            "status": "Status",
+            "grocery_items": "Grocery Items",
+            "notes": "Notes"
+        },
         "order_item_list": {
             "item": "Item Name",
             "quantity": "Quantity",
@@ -85,6 +93,15 @@
             "cancelled_body": "It looks like your order has been cancelled. We hope we can help you next time!",
             "default_heading": "Something has gone wrong.",
             "default_body": "Sorry, we're having some issues. Try re-doing your order."
+        },
+        "order_status_badge": {
+            "draft": "Draft",
+            "confirmed": "Confirmed",
+            "assigned": "Assigned",
+            "being_delivered": "Being delivered",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "unknown": "Unknown"
         },
         "users": {
             "no_account": "Don't have an account?",

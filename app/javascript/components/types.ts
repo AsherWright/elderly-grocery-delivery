@@ -39,7 +39,7 @@ interface Order {
     phoneNumber: string;
     email: string;
     orderLineItems: OrderLineItem[];
-    destination: Address;
+    destination: Address | null;
 }
 
 export { Address, OrderStatus, Order, OrderLineItem, GroceryItem }

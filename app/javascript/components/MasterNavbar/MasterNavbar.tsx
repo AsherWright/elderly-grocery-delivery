@@ -35,7 +35,7 @@ function getUserButton(userContext: { user: string; setUser: (user: string) => v
             </Link>
         );
     } else {
-        return <Button onClick={(): void => handleLogOut(userContext.setUser)}>{t('shared.log_out')} {userContext.user}</Button>
+        return <Button variant="danger" onClick={(): void => handleLogOut(userContext.setUser)}>{t('shared.log_out')} {userContext.user}</Button>
     }
 }
 

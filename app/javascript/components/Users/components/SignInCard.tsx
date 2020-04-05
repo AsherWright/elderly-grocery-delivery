@@ -49,7 +49,6 @@ function submitForm(
         if (response.errors) {
             setErrors({ invalidLogin: Boolean(response.errors?.invalid_login) })
         } else {
-            console.log(response)
             setUser(response.name)
             setRedirect(true)
         }
