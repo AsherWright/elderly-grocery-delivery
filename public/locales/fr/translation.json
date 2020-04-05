@@ -5,7 +5,7 @@
             "order_groceries": "Faire l'épicerie",
             "order_explanation": "Ici, vous pouvez choisir les articles que vous souhaitez faire livrer, définir le prix que vous êtes prêt à payer et commander!",
             "view_order": "Voir l'ordre",
-            "view_order_explanation": "Affichez le statut d'une commande existante.",
+            "view_order_explanation": "Jetez un œil à toutes vos commandes - terminées, annulées, ou actives!",
             "deliver": "Inscrivez-vous pour livrer",
             "deliver_explanation": "Inscrivez-vous en tant que bénévole pour aider à livrer des articles aux personnes dans le besoin!",
             "deliver_header": "Livrer",
