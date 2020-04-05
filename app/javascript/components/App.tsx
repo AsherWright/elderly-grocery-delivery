@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Deliveries, Home, Groceries, LanguageSelector, MasterNavbar, Order, OrdersIndex, Users } from "../components";
 import { UserProvider } from './UserContext';
-import { FetchUserResponse } from './api-types';
+import { ApiUser } from './api-types';
 
 const App = (): JSX.Element => {
     const [state, setState] = useState('');
@@ -12,7 +12,7 @@ const App = (): JSX.Element => {
 
         fetch(url).then((response: Response) => {
             if (response.ok) {
-                return response.json() as Promise<FetchUserResponse | null>;
+                return response.json() as Promise<ApiUser | null>;
             }
             throw new Error("Network response not okay on fetching user.")
         }).then(response => {

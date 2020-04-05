@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Badge } from 'react-bootstrap';
-import { OrderStatus } from '../../types';
+import { Order, OrderStatus } from '../../types';
 
 interface OrderIndexLineProps {
     order: Order;

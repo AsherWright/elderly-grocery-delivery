@@ -21,12 +21,25 @@ interface OrderLineItem {
     groceryItem: GroceryItem;
 }
 
-interface Order {
-    id: string;
-    status: OrderStatus;
-    deliveryNotes: string;
-    createdAt: string;
-    orderLineItems: OrderLineItem[];
+interface Address {
+    name: string;
+    addressLine: string;
+    unitNumber: string;
+    city: string;
+    province: string;
+    country: string;
+    postalCode: string;
 }
 
-export { OrderStatus, Order, OrderLineItem, GroceryItem }
+interface Order {
+    id: string;
+    createdAt: Date;
+    status: OrderStatus;
+    deliveryNotes: string;
+    phoneNumber: string;
+    email: string;
+    orderLineItems: OrderLineItem[];
+    destination: Address;
+}
+
+export { Address, OrderStatus, Order, OrderLineItem, GroceryItem }

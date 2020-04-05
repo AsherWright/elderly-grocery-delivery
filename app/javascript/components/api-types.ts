@@ -1,40 +1,47 @@
-interface FetchUserResponse {
+interface ApiUser {
     id: string;
     name: string;
     email: string;
 }
 
-interface GroceryItemResponse {
+interface ApiGroceryItem {
     id: string;
     name: string;
     image: string;
     price: number;
 }
 
-interface OrderLineItemResponse {
+interface ApiOrderLineItem {
     id: string;
     quantity: number;
-    grocery_item: GroceryItemResponse;
+    grocery_item: ApiGroceryItem;
 }
 
-interface FetchOrderResponse {
+interface ApiAddress {
+    name: string;
+    address_line: string;
+    unit_number: string | null;
+    city: string;
+    province: string;
+    country: string;
+    postal_code: string;
+}
+
+interface ApiOrder {
     id: string;
     created_at: string;
     status: string;
-    order_line_items: OrderLineItemResponse[];
     delivery_notes: string;
-}
-
-interface FetchGroceryItemsResponse {
-    id: string;
-    name: string;
-    price: number;
+    phone_number: string;
+    email: string;
+    order_line_items: ApiOrderLineItem[];
+    destination: ApiAddress;
 }
 
 export {
-    FetchGroceryItemsResponse,
-    FetchOrderResponse,
-    FetchUserResponse,
-    GroceryItemResponse,
-    OrderLineItemResponse
+    ApiAddress,
+    ApiGroceryItem,
+    ApiOrder,
+    ApiUser,
+    ApiOrderLineItem
 }

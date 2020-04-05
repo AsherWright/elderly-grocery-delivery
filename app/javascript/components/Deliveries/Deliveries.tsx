@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Order } from '../types';
-import { FetchOrderResponse } from '../api-types';
-import { convertToOrderStatus } from '../api-helper';
+import { ApiOrder } from '../api-types';
+import { convertToAddress, convertToOrderStatus, convertToOrderLineItem } from '../api-helper';
 
 function Deliveries(): JSX.Element {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -12,7 +12,7 @@ function Deliveries(): JSX.Element {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchOrderResponse[]>;
+                    return response.json() as Promise<ApiOrder[]>;
                 }
                 throw new Error("Network response was not ok.");
             })
@@ -24,8 +24,11 @@ function Deliveries(): JSX.Element {
                             id: responseOrder.id,
                             status: convertToOrderStatus(responseOrder.status),
                             deliveryNotes: responseOrder.delivery_notes,
-                            orderLineItems: [],
-                            createdAt: ""
+                            orderLineItems: responseOrder.order_line_items.map(convertToOrderLineItem),
+                            createdAt: new Date(responseOrder.created_at),
+                            destination: convertToAddress(responseOrder.destination),
+                            email: responseOrder.email,
+                            phoneNumber: responseOrder.phone_number
                         }
                     })
                 )

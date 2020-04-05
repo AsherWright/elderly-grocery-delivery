@@ -3,8 +3,8 @@ import { ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { OrderIndexLine } from './components';
 import { Order } from '../types';
-import { FetchOrderResponse } from '../api-types';
-import { convertToOrderStatus, convertOrderLineItem } from '../api-helper';
+import { ApiOrder } from '../api-types';
+import { convertToOrderStatus, convertToOrderLineItem, convertToAddress } from '../api-helper';
 
 function OrdersIndex(): JSX.Element {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -15,7 +15,7 @@ function OrdersIndex(): JSX.Element {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchOrderResponse[]>;
+                    return response.json() as Promise<ApiOrder[]>;
                 }
                 throw new Error("Network response was not ok.");
             })
@@ -27,8 +27,11 @@ function OrdersIndex(): JSX.Element {
                             id: responseOrder.id,
                             status: convertToOrderStatus(responseOrder.status),
                             deliveryNotes: responseOrder.delivery_notes,
-                            createdAt: responseOrder.created_at,
-                            orderLineItems: responseOrder.order_line_items.map(convertOrderLineItem),
+                            createdAt: new Date(responseOrder.created_at),
+                            orderLineItems: responseOrder.order_line_items.map(convertToOrderLineItem),
+                            destination: convertToAddress(responseOrder.destination),
+                            email: responseOrder.email,
+                            phoneNumber: responseOrder.phone_number
                         }
                     })
                 )

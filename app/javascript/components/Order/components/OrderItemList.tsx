@@ -2,7 +2,7 @@ import { Row, Col, ListGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { OrderItem } from '.';
-import { GroceryItem, OrderLineItem } from '../../types';
+import { OrderLineItem } from '../../types';
 
 interface OrderItemListProps {
     OrderListItems: OrderLineItem[];

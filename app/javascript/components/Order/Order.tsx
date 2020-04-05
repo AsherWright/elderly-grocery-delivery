@@ -3,21 +3,18 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { UnconfirmedOrderPage, ConfirmedOrderPage } from './components'
 import React from 'react';
 import { OrderStatus, Order, OrderLineItem } from '../types';
-import { FetchOrderResponse } from '../api-types';
+import { ApiOrder } from '../api-types';
+import { convertToAddress, convertToOrderStatus } from '../api-helper';
 
 interface OrderState {
     order: Order;
-}
-
-interface RouteParams {
-    id: string;
 }
 
 interface OrderProps {
     items: OrderLineItem[];
 }
 
-type OrderPageProps = OrderProps & RouteComponentProps<RouteParams> & WithTranslation
+type OrderPageProps = OrderProps & RouteComponentProps<{ id: string }> & WithTranslation
 
 class OrderPage extends React.Component<OrderPageProps, OrderState> {
     constructor(props: OrderPageProps) {
@@ -27,9 +24,12 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
             order: {
                 status: OrderStatus.Unknown,
                 id: "",
-                createdAt: "",
+                createdAt: new Date(),
                 orderLineItems: [],
                 deliveryNotes: "",
+                destination: { addressLine: "", city: "", country: "", name: "", postalCode: "", province: "", unitNumber: "" },
+                email: "",
+                phoneNumber: ""
             }
         };
         this.confirmOrder = this.confirmOrder.bind(this);
@@ -41,15 +41,15 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchOrderResponse>;
+                    return response.json() as Promise<ApiOrder>;
                 }
                 throw new Error("Network response was not ok.");
             })
             .then(response => this.setState(
                 {
                     order: {
-                        status: this.convertToOrderStatus(response.status),
-                        createdAt: response.created_at,
+                        status: convertToOrderStatus(response.status),
+                        createdAt: new Date(response.created_at),
                         id: response.id,
                         deliveryNotes: "",
                         orderLineItems: response.order_line_items.map((item) => {
@@ -58,7 +58,10 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                                 id: item.id,
                                 quantity: item.quantity
                             }
-                        })
+                        }),
+                        destination: convertToAddress(response.destination),
+                        email: response.email,
+                        phoneNumber: response.phone_number
                     }
                 }
             ))
@@ -85,25 +88,6 @@ class OrderPage extends React.Component<OrderPageProps, OrderState> {
                     status={order.status} />;
             default:
                 return <></>;
-        }
-    }
-
-    convertToOrderStatus(status: string): OrderStatus {
-        switch (status) {
-            case "unconfirmed":
-                return OrderStatus.Unconfirmed;
-            case "confirmed":
-                return OrderStatus.Confirmed;
-            case "assigned":
-                return OrderStatus.Assigned;
-            case "being_delivered":
-                return OrderStatus.BeingDelivered;
-            case "completed":
-                return OrderStatus.Completed;
-            case "cancelled":
-                return OrderStatus.Cancelled;
-            default:
-                return OrderStatus.Unknown;
         }
     }
 

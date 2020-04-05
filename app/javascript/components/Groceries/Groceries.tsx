@@ -4,7 +4,7 @@ import { Container, Col, Row, Form } from 'react-bootstrap';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { GroceryList, Basket } from './components';
 import { GroceryItem } from '../types';
-import { FetchGroceryItemsResponse, FetchOrderResponse } from '../api-types';
+import { ApiGroceryItem, ApiOrder } from '../api-types';
 
 interface GroceryLineItem extends GroceryItem {
     quantity: number;
@@ -49,7 +49,7 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         fetch(url)
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchGroceryItemsResponse[]>;
+                    return response.json() as Promise<ApiGroceryItem[]>;
                 } else if (response.status === 401) {
                     this.setState({ unauthorized: true })
                 }
@@ -110,11 +110,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
         fetch(ordersUrl, fetchParams(JSON.stringify(orderBody)))
             .then((response: Response) => {
                 if (response.ok) {
-                    return response.json() as Promise<FetchOrderResponse>;
+                    return response.json() as Promise<ApiOrder>;
                 }
                 throw new Error("Network response was not ok on order create.");
             })
-            .then((createOrderResponse: FetchOrderResponse) => {
+            .then((createOrderResponse: ApiOrder) => {
                 const groceriesBody = {
                     items: cartLineItems.filter(x => x.new).map((item) => {
                         return {
@@ -128,11 +128,11 @@ class Groceries extends React.Component<GroceriesProps, GroceriesState> {
                 fetch(groceriesUrl, fetchParams(JSON.stringify(groceriesBody)))
                     .then((response: Response) => {
                         if (response.ok) {
-                            return response.json() as Promise<FetchGroceryItemsResponse[]>;
+                            return response.json() as Promise<ApiGroceryItem[]>;
                         }
                         throw new Error("Network response was not ok on groceries create.");
                     })
-                    .then((createGroceriesResponse: FetchGroceryItemsResponse[]) => {
+                    .then((createGroceriesResponse: ApiGroceryItem[]) => {
                         const lineItemsBody = {
                             items: cartLineItems.map((item) => {
                                 return {
